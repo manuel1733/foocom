@@ -1,34 +1,4 @@
 <?php
-function show_selectable($iterator, $name) {
-    ?>
-            <div id="<?php echo $name; ?>_dialog" title="w&auml;hlen, Ctrl gedr&uuml;ckt halten">
-                <ul id="<?php echo $name; ?>_selectable" class="ui-selectable">
-                    <?php
-                    foreach ($iterator as $row) {
-                        $selected = ($row['selected'] == null ? '' : ' ui-selected');
-                        echo '<li id="' . $name . '_' . $row['id'] . '" class="ui-widget-content' . $selected .'">';
-                        echo $row['name'] . "</li>\n";
-                    }
-                    ?>
-                </ul>
-                Ausgew&auml;hlt: <input id="<?php echo $name; ?>_result" name="<?php echo $name; ?>_result" readonly="readonly"/>
-            </div>
-            <script type="text/javascript">
-                $(function() {
-                	$( "#<?php echo $name; ?>_selectable" ).selectable({
-                    	stop: function () {
-                        	var result = $('#<?php echo $name; ?>_result');
-                        	result.val('');
-                    		$('.ui-selected', this).each(function() {
-                        		var selected_id = $(this).attr('id').replace('<?php echo $name; ?>_', '');
-                        		result.val(result.val() + selected_id + ', ');
-                    		});
-                    	}
-                	});
-                });
-            </script>
-    <?php
-}
 
 function checkbox($value) {
     if ($value == 0) {
@@ -48,56 +18,75 @@ function select_options(array $options, $key) {
     }
 }
 
+function select_options_multiple($iterator) {
+    echo '<option value="0">keine</option>';
+    foreach ($iterator as $row) {
+        $k = $row['id'];
+        $v = $row['name'];
+        if ($row['selected'] == null) {
+            echo '<option value="' . $k . '">' . $v . '</option>';
+        } else {
+            echo '<option value="' . $k . '" selected="selected">' . $v . '</option>';
+        }
+    }
+}
+
+function o($value) {
+    echo htmlspecialchars($value, ENT_COMPAT | ENT_HTML401, 'UTF-8');
+}
+
 ?>
 
 <h1>Produkte</h1>
 
+<form action="index.php?products-change-<?php echo $id; ?>" method="post">
+
 <table>
     <tr>
         <td>Name</td>
-        <td><input name="name" value="<?php echo 'aaa' ?>" /></td>
+        <td><input name="name" value="<?php o($fields['name']); ?>" /></td>
     </tr>
     <tr>
         <td>EAN</td>
-        <td><input name="ean" value="{ean}" /></td>
+        <td><input name="ean" value="<?php o($fields['ean']); ?>" /></td>
     </tr>
     <tr>
         <td>Min. an Lager</td>
-        <td><input name="min_stock" value="{min_stock}" /></td>
+        <td><input name="min_stock" value="<?php o($fields['min_stock']); ?>" /></td>
     </tr>
     <tr>
         <td>Bestellmenge</td>
-        <td><input name="order_quantity" value="{order_quantity}" /></td>
+        <td><input name="order_quantity" value="<?php o($fields['order_quantity']); ?>" /></td>
     </tr>
     <tr>
         <td>Labels</td>
-        <td><?php show_selectable($pdb->labels_for($id), 'labels'); ?></td>
+        <td><select name="labels[]" multiple="multiple" size="3"><?php select_options_multiple($pdb->labels_for($id)); ?></select></td>
     </tr>
     <tr>
     	<td>Warengruppe</td>
-        <td><?php show_selectable($pdb->product_groups_for($id), 'customer_groups'); ?></td>
+        <td><select name="product_groups[]" multiple="multiple" size="3"><?php select_options_multiple($pdb->product_groups_for($id)); ?></select></td>
     </tr>
     <tr>
         <td>Allergene</td>
-        <td><?php show_selectable($pdb->allergens_for($id), 'allergens'); ?></td>
+        <td><select name="allergens[]" multiple="multiple" size="3"><?php select_options_multiple($pdb->allergens_for($id)); ?></select></td>
     </tr>
     <tr>
         <td>N&auml;hrwerte</td>
-        <td><input name="food_value" value="{food_value}" /></td>
+        <td><input name="food_value" value="<?php o($fields['food_value']); ?>" /></td>
     </tr>
     <tr>
         <td>Zutaten</td>
-        <td><input name="ingredients" value="{ingredients}" /></td>
+        <td><input name="ingredients" value="<?php o($fields['ingredients']); ?>" /></td>
     </tr>
     <tr>
         <td>Hersteller</td>
-        <td><select name="producer"><?php select_options($pdb->producers(), $fields['producer']); ?></select></td>
+        <td><select name="producer_id"><?php select_options($pdb->producers(), $fields['producer_id']); ?></select></td>
     </tr>
     <tr>
         <th colspan="2">Beschreibung</th>
     </tr>
     <tr>
-        <td colspan="2"><textarea name="description" cols="50" rows="10">{description}</textarea></td>
+        <td colspan="2"><textarea name="description" cols="50" rows="10"><?php o($fields['description']); ?></textarea></td>
     </tr>
     <tr>
         <th colspan="2">Bilder</th>
@@ -112,41 +101,45 @@ function select_options(array $options, $key) {
     <tr>
         <td align="center" colspan="2">
             <?php echo $row['name']; ?>
-            <input type="hidden" name="customer_group[]" value="<?php echo $row['id']; ?>" />
+            <input type="hidden" name="customer_groups[]" value="<?php echo $row['id']; ?>" />
         </td>
     </tr>
     <tr>
         <td>Preis</td>
-        <td><input name="customer_price[]" value="<?php echo $row['price']; ?>" /></td>
+        <td><input name="customer_price[<?php echo $row['id']; ?>]" value="<?php echo $row['price']; ?>" /></td>
     </tr>
     <tr>
         <td>Sichtbar</td>
-        <td><input type="checkbox" name="customer_show[]"<?php echo checkbox($row['display']); ?> /> </td>
+        <td><input type="checkbox" name="customer_display[<?php echo $row['id']; ?>]"<?php echo checkbox($row['display']); ?> /> </td>
     </tr>
     <?php endforeach; ?>
     <tr>
         <th colspan="2">Lieferanten</th>
     </tr>
-    <!-- {SPLIT} -->
+    <?php foreach($pdb->suppliers_for($id) as $row): ?>
     <tr>
-        <td align="center" colspan="2">{supplier}<input type="hidden" name="supplier_id[]" value="{supplier_id}" /></td>
+        <td align="center" colspan="2">
+            <?php echo $row['name']; ?>
+            (<input type="checkbox" name="supplier_delete[<?php echo $row['id']; ?>]" value="y" />  l&ouml;schen)
+            <input type="hidden" name="suppliers[]" value="<?php echo $row['id']; ?>" />
+        </td>
     </tr>
     <tr>
         <td>Artikel Nr.</td>
-        <td><input name="product_number[]" value="{product_number}" /></td>
+        <td><input name="supplier_product_number[]" value="<?php echo $row['product_number']; ?>" /></td>
     </tr>
     <tr>
         <td>Einkaufspreis</td>
-        <td><input name="purchase_price[]" value="{purchase_price}" /></td>
+        <td><input name="supplier_purchase_price[]" value="<?php echo $row['purchase_price']; ?>" /></td>
     </tr>
     <tr>
         <td>Min. Bestellmenge</td>
-        <td><input name="purchase_price[]" value="{purchase_price}" /></td>
+        <td><input name="supplier_order_quantity[]" value="<?php echo $row['order_quantity']; ?>" /></td>
     </tr>
-    <!-- {SPLIT} -->
+    <?php endforeach; ?>
     <tr>
         <td>Lieferanten</td>
-        <td>hinzuf&uuml;gen <select id="suppliers"><option>w&auml;hlen</option>{suppliers}</select></td>
+        <td>hinzuf&uuml;gen <select name="supplier_add"><option value="0">w&auml;hlen</option><?php select_options($pdb->suppliers_not($id), 0); ?></select></td>
     </tr>
     <tr>
         <td></td>
@@ -154,54 +147,4 @@ function select_options(array $options, $key) {
     </td>
 </table>
 
-<script type="text/javascript">
-
-$('#suppliers').change(function() {
-	var selected_item = $('#suppliers :selected');
-	var supplier_name = selected_item.text();
-	var supplier_id = selected_item.val();
-	$('<tr><td align="center" colspan="2">' + supplier_name +
-		'<input type="hidden" name="supplier_id[]" value="' + supplier_id + '" /></td></tr>' +
-		'<tr><td>Artikel Nr.</td><td><input name="product_number[]" /></td></tr>' +
-    	'<tr><td>Einkaufspreis</td><td><input name="purchase_price[]" /></td>' +
-    	'</tr>').insertBefore($('#suppliers').parent().parent());
-	selected_item.remove();
-});
-
-$('#allergens').change(function() {
-	var selected_item = $('#allergens :selected');
-	var allergen_name = selected_item.text();
-	var allergen_id = selected_item.val();
-	$('#allergens').parent().append('<span id="allergen_' + allergen_id + '"><a href="javascript:delete_allergen(' + allergen_id + ');">x</a> ' + allergen_name + '<input type="hidden" name="allergens[]" value="' + allergen_id + '" />, </span>');
-	selected_item.remove();
-});
-
-function delete_allergen(allergen_id) {
-	$('#allergen_' + allergen_id).remove();
-}
-
-$('#labels').change(function() {
-	var selected_item = $('#labels :selected');
-	var label_name = selected_item.text();
-	var label_id = selected_item.val();
-	$('#labels').parent().append('<span id="label_' + label_id + '"><a href="javascript:delete_label(' + label_id + ');">x</a> ' + label_name + '<input type="hidden" name="labels[]" value="' + label_id + '" />, </span>');
-	selected_item.remove();
-});
-
-function delete_label(label_id) {
-	$('#label_' + label_id).remove();
-}
-
-$('#product_groups').change(function() {
-	var selected_item = $('#product_groups :selected');
-	var name = selected_item.text();
-	var id = selected_item.val();
-	$('#product_groups').parent().append('<span id="product_group_' + id + '"><a href="javascript:delete_product_group(' + id + ');">x</a> ' + name + '<input type="hidden" name="product_groups[]" value="' + id + '" />, </span>');
-	selected_item.remove();
-});
-
-function delete_product_group(id) {
-	$('#product_group_' + id).remove();
-}
-
-</script>
+</form>

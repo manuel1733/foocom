@@ -1,5 +1,20 @@
 <?php
 
+function handle_select($pdb, Request $request, $iterator, $id, $name) {
+    if ($request->param_exists($name)) {
+        foreach($iterator as $row) {
+            $is_selected = in_array($row['id'], $request->param($name));
+            $was_selected = $row['selected'] != null;
+            if ($was_selected && !$is_selected) {
+                $pdb->delete_select($name, $id, $row['id']);
+            }
+            if (!$was_selected && $is_selected) {
+                $pdb->add_select($name, $id, $row['id']);
+            }
+        }
+    }
+}
+
 $fields = array(
     'name' => '',
     'ean' => '',
@@ -8,49 +23,54 @@ $fields = array(
     'order_quantity' => '',
     'food_value' => '',
     'ingredients' => '',
-    'producer' => '',
+    'producer_id' => '',
 );
 
-$id = $request->param(1);
+$id = $request->param(2);
 
-// $template = new Template('products/products');
-// $template->set_ar($fields);
-// $template->set('suppliers', '');
-// $template->set_option_list('suppliers', $product_db->suppliers());
-// $template->set('allergens', '');
-// $template->set_option_list('allergens', $product_db->allergens());
-// $template->set('labels', '');
-// $template->set_option_list('labels', $product_db->labels());
-// $template->set('product_groups', '');
-// $template->set_option_list('product_groups', $product_db->product_groups());
-// $template->set('producers', '');
-// $template->set_option_list('producers', $product_db->producers());
-// $template->out(0);
-// foreach ($product_db->labels_for($id) as $row) {
-//     $template->set_ar_out($row, 1);
-// }
-// $template->out(2);
-// foreach ($product_db->product_groups_for($id) as $row) {
-//     $template->set_ar_out($row, 3);
-// }
-// $template->out(4);
-// foreach ($product_db->allergens_for($id) as $row) {
-//     $template->set_ar_out($row, 5);
-// }
-// $template->out(6);
-// foreach ($product_db->customer_groups_for($id) as $row) {
-//     $template->set_ar_out($row, 7);
-// }
-// $template->out(8);
-// foreach ($product_db->suppliers_for($id) as $row) {
-//     $template->set_ar_out($row, 9);
-// }
-// $template->out(10);
+if ($request->is_post()) {
+    $fields = $request->populate($fields);
+    $pdb->update($id, $fields);
 
-// $design->footer();
+    handle_select($pdb, $request, $pdb->labels_for($id), $id, 'labels');
+    handle_select($pdb, $request, $pdb->product_groups_for($id), $id, 'product_groups');
+    handle_select($pdb, $request, $pdb->allergens_for($id), $id, 'allergens');
 
+    $customer_price = $request->param('customer_price');
+    $customer_display = $request->param('customer_display');
+    foreach($request->param('customer_groups') as $gid) {
+        $price = $customer_price[$gid];
+        $display = empty($customer_display[$gid]) ? 0 : 1;
+        $pdb->update_customer_group($id, $gid, $price, $display);
+    }
 
+    if ($request->param_exists('supplier_add')) {
+        $pdb->add_supplier($id, $request->param('supplier_add'));
+    }
 
+    $supplier_product_number = $request->param('supplier_product_number');
+    $supplier_purchase_price = $request->param('supplier_purchase_price');
+    $supplier_order_quantity = $request->param('supplier_order_quantity');
+    $supplier_delete = $request->param('supplier_delete');
+    if ($request->param_exists('suppliers')) {
+        foreach($request->param('suppliers') as $i => $sid) {
+            if (!empty($supplier_delete[$sid])) {
+                $pdb->delete_supplier($id, $sid);
+            } else {
+                $product_number = $supplier_product_number[$i];
+                $purchase_price = $supplier_purchase_price[$i];
+                $order_quantity = $supplier_order_quantity[$i];
+                $pdb->update_supplier($id, $sid, $product_number, $purchase_price, $order_quantity);
+            }
+        }
+    }
+
+    // header('location: index.php?products-change-' . $id);
+    exit(0);
+}
+
+// VIEW
+$fields = $pdb->get($id);
 $design->header('Produkt aendern');
 include 'change.view.php';
 $design->footer();

@@ -23,14 +23,26 @@ class Request {
     }
 
     function param_exists($pos) {
-        return !empty($this->query_parts[$pos]);
+        if (is_numeric($pos)) {
+            return !empty($this->query_parts[$pos]);
+        } else {
+            return !empty($_POST[$pos]);
+        }
     }
 
     function param($pos) {
-        if ($this->param_exists($pos)) {
-            return $this->query_parts[$pos];
+        if (is_numeric($pos)) {
+            if ($this->param_exists($pos)) {
+                return $this->query_parts[$pos];
+            } else {
+                return '';
+            }
         } else {
-            return '';
+            if ($this->param_exists($pos)) {
+                return $_POST[$pos];
+            } else {
+                return null;
+            }
         }
     }
 

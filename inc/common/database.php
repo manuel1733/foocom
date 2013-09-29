@@ -37,6 +37,14 @@ class Database {
         return $row;
     }
 
+    function query_for_one($query, array $fields) {
+        $statement = $this->prepare($query, $fields);
+        $statement->execute();
+        $row = $statement->fetch(PDO::FETCH_NUM);
+        $statement->closeCursor();
+        return $row[0];
+    }
+
     function query($sql, array $fields) {
         $statement = $this->prepare($sql, $fields);
         $statement->execute();
