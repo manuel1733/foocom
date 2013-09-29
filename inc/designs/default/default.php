@@ -12,7 +12,10 @@ class Design {
     <head>
         <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
         <title><?php echo $title; ?></title>
-        <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+        <link href="inc/designs/default/style.css" media="all" rel="stylesheet" type="text/css" />
+        <!-- <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />  -->
+        <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+        <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
     </head>
     <body>
 
@@ -24,9 +27,8 @@ class Design {
     <a href="index.php?">Mitarbeiter</a>
     <a href="index.php?">Lager</a>
     <a href="index.php?customers-groups">Kundengruppen</a>
-    <a href="index.php?">Aktionen</a>
     <a href="index.php?">Labels</a>
-    <a href="index.php?">Hersteller</a>
+    <a href="index.php?producers">Hersteller</a>
     <a href="index.php?">Produktgruppen</a>
     <a href="index.php?">Allergene</a>
     <a href="index.php?"></a>

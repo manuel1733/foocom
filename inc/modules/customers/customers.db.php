@@ -63,5 +63,4 @@ class Customers_Database {
     function all_groups_iterator() {
         return $this->db->query("SELECT * FROM customer_groups", array());
     }
-
 }

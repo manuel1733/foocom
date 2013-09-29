@@ -1,9 +1,61 @@
+<?php
+function show_selectable($iterator, $name) {
+    ?>
+            <div id="<?php echo $name; ?>_dialog" title="w&auml;hlen, Ctrl gedr&uuml;ckt halten">
+                <ul id="<?php echo $name; ?>_selectable" class="ui-selectable">
+                    <?php
+                    foreach ($iterator as $row) {
+                        $selected = ($row['selected'] == null ? '' : ' ui-selected');
+                        echo '<li id="' . $name . '_' . $row['id'] . '" class="ui-widget-content' . $selected .'">';
+                        echo $row['name'] . "</li>\n";
+                    }
+                    ?>
+                </ul>
+                Ausgew&auml;hlt: <input id="<?php echo $name; ?>_result" name="<?php echo $name; ?>_result" readonly="readonly"/>
+            </div>
+            <script type="text/javascript">
+                $(function() {
+                	$( "#<?php echo $name; ?>_selectable" ).selectable({
+                    	stop: function () {
+                        	var result = $('#<?php echo $name; ?>_result');
+                        	result.val('');
+                    		$('.ui-selected', this).each(function() {
+                        		var selected_id = $(this).attr('id').replace('<?php echo $name; ?>_', '');
+                        		result.val(result.val() + selected_id + ', ');
+                    		});
+                    	}
+                	});
+                });
+            </script>
+    <?php
+}
+
+function checkbox($value) {
+    if ($value == 0) {
+        return '';
+    } else {
+        return ' checked="checked"';
+    }
+}
+
+function select_options(array $options, $key) {
+    foreach ($options as $k => $v) {
+        if ($key == $k) {
+            echo '<option value="' . $k . '" selected="selected">' . $v . '</option>';
+        } else {
+            echo '<option value="' . $k . '">' . $v . '</option>';
+        }
+    }
+}
+
+?>
+
 <h1>Produkte</h1>
 
 <table>
     <tr>
         <td>Name</td>
-        <td><input name="name" value="{name}" /></td>
+        <td><input name="name" value="<?php echo 'aaa' ?>" /></td>
     </tr>
     <tr>
         <td>EAN</td>
@@ -19,15 +71,15 @@
     </tr>
     <tr>
         <td>Labels</td>
-        <td><select id="labels"><option>w&auml;hlen</option>{labels}</select> &nbsp; <!-- {SPLIT} --><a href="index.php?products-labels-{id}-delete">x</a> {name}, <!-- {SPLIT} --></td>
+        <td><?php show_selectable($pdb->labels_for($id), 'labels'); ?></td>
     </tr>
     <tr>
     	<td>Warengruppe</td>
-        <td><select id="product_groups"><option>w&auml;hlen</option>{product_groups}</select> &nbsp; <!-- {SPLIT} --><span id="product_groups_{id}"><a href="delete_prodcut_groups({id});">x</a> {name}, <input type="hidden" name="product_group[]" value="{id}" /></span><!-- {SPLIT} --></td>
+        <td><?php show_selectable($pdb->product_groups_for($id), 'customer_groups'); ?></td>
     </tr>
     <tr>
         <td>Allergene</td>
-        <td><select id="allergens"><option>w&auml;hlen</option>{allergens}</select> &nbsp; <!-- {SPLIT} --><span id="allergens_{id}"><a href="delete_allergen({id});">x</a> {name}, <input type="hidden" name="allergens[]" value="{id}" /></span><!-- {SPLIT} --></td>
+        <td><?php show_selectable($pdb->allergens_for($id), 'allergens'); ?></td>
     </tr>
     <tr>
         <td>N&auml;hrwerte</td>
@@ -39,7 +91,7 @@
     </tr>
     <tr>
         <td>Hersteller</td>
-        <td><select name="producer">{producers}</select></td>
+        <td><select name="producer"><?php select_options($pdb->producers(), $fields['producer']); ?></select></td>
     </tr>
     <tr>
         <th colspan="2">Beschreibung</th>
@@ -56,19 +108,22 @@
     <tr>
         <th colspan="2">Kundengruppen</th>
     </tr>
-    <!-- {SPLIT} -->
+    <?php foreach($pdb->customer_groups_for($id) as $row): ?>
     <tr>
-        <td align="center" colspan="2">{name}<input type="hidden" name="customer_group[]" value="{id}" /></td>
+        <td align="center" colspan="2">
+            <?php echo $row['name']; ?>
+            <input type="hidden" name="customer_group[]" value="<?php echo $row['id']; ?>" />
+        </td>
     </tr>
     <tr>
         <td>Preis</td>
-        <td><input name="customer_price[]" value="{customer_price}" /></td>
+        <td><input name="customer_price[]" value="<?php echo $row['price']; ?>" /></td>
     </tr>
     <tr>
         <td>Sichtbar</td>
-        <td><input type="checkbox" name="customer_show[]" /> </td>
+        <td><input type="checkbox" name="customer_show[]"<?php echo checkbox($row['display']); ?> /> </td>
     </tr>
-    <!-- {SPLIT} -->
+    <?php endforeach; ?>
     <tr>
         <th colspan="2">Lieferanten</th>
     </tr>
@@ -105,7 +160,7 @@ $('#suppliers').change(function() {
 	var selected_item = $('#suppliers :selected');
 	var supplier_name = selected_item.text();
 	var supplier_id = selected_item.val();
-	$('<tr><td align="center" colspan="2">' + supplier_name + 
+	$('<tr><td align="center" colspan="2">' + supplier_name +
 		'<input type="hidden" name="supplier_id[]" value="' + supplier_id + '" /></td></tr>' +
 		'<tr><td>Artikel Nr.</td><td><input name="product_number[]" /></td></tr>' +
     	'<tr><td>Einkaufspreis</td><td><input name="purchase_price[]" /></td>' +
