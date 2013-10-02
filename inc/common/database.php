@@ -2,13 +2,14 @@
 
 defined ('main') or die ('no direct access');
 
-class Database {
-
-    private $db;
+abstract class Database {
+    protected static $db = false;
 
     public function Database() {
-        $this->db = new PDO('mysql:host=localhost;dbname=foocom', 'root', '');
-        $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        if (!self::$db) {
+            self::$db = new PDO('mysql:host=localhost;dbname=foocom', 'root', '');
+            self::$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        }
     }
 
     public function run($query, array $fields) {
@@ -17,16 +18,8 @@ class Database {
         $statement->closeCursor();
     }
 
-    private function prepare($query, array $fields) {
-        $statement = $this->db->prepare($query);
-        foreach ($fields as $key => $value) {
-            $statement->bindValue(':' . $key, $value);
-        }
-        return $statement;
-    }
-
     function insert_id() {
-        return $this->db->lastInsertId();
+        return self::$db->lastInsertId();
     }
 
     function query_for_row($query, array $fields) {
@@ -50,6 +43,14 @@ class Database {
         $statement->execute();
 
         return new Database_Result($statement);
+    }
+
+    private function prepare($query, array $fields) {
+        $statement = self::$db->prepare($query);
+        foreach ($fields as $key => $value) {
+            $statement->bindValue(':' . $key, $value);
+        }
+        return $statement;
     }
 }
 

@@ -11,7 +11,6 @@ include 'inc/designs/default/default.php';
 include 'inc/config.php';
 
 $request = new Request();
-$db = new Database();
 $design = new Design();
 
 $module = $request->get_module();

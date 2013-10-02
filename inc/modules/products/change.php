@@ -69,8 +69,13 @@ if ($request->is_post()) {
     exit(0);
 }
 
-// VIEW
-$fields = $pdb->get($id);
-$design->header('Produkt aendern');
-include 'change.view.php';
-$design->footer();
+$template = new Template('products/change');
+$template->set_ar($fields);
+$template->set_row_iterator('allergens', $pdb->allergens_for($id));
+$template->set_row_iterator('product_groups', $pdb->product_groups_for($id));
+$template->set_row_iterator('labels', $pdb->labels_for($id));
+$template->set_row_iterator('producers', $pdb->producers());
+$template->set_row_iterator('customer_groups', $pdb->customer_groups_for($id));
+$template->set_row_iterator('suppliers', $pdb->suppliers_for($id));
+$template->set_row_iterator('available_suppliers', $pdb->suppliers_not($id));
+$template->out($design);
