@@ -18,7 +18,7 @@ abstract class Database {
         $statement->closeCursor();
     }
 
-    function insert_id() {
+    protected function insert_id() {
         return self::$db->lastInsertId();
     }
 
@@ -38,11 +38,12 @@ abstract class Database {
         return $row[0];
     }
 
-    function query($sql, array $fields) {
+    function query($sql, array $fields = array()) {
         $statement = $this->prepare($sql, $fields);
         $statement->execute();
-
-        return new Database_Result($statement);
+        $rows = $statement->fetchAll(PDO::FETCH_ASSOC);
+        $statement->closeCursor();
+        return $rows;
     }
 
     private function prepare($query, array $fields) {
@@ -51,34 +52,5 @@ abstract class Database {
             $statement->bindValue(':' . $key, $value);
         }
         return $statement;
-    }
-}
-
-class Database_Result implements Iterator {
-    private $statement;
-    private $row;
-
-    function Database_Result(PDOStatement $statement) {
-        $this->statement = $statement;
-    }
-
-    function rewind() {
-        $this->next();
-    }
-
-    function current() {
-        return $this->row;
-    }
-
-    function key() {
-        return 0;
-    }
-
-    function next() {
-        $this->row = $this->statement->fetch(PDO::FETCH_ASSOC);
-    }
-
-    function valid() {
-        return $this->row != null;
     }
 }

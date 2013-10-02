@@ -25,13 +25,13 @@ class Design {
     <a href="index.php?products">Produkte</a>
     <a href="index.php?customers">Kunden</a>
     <a href="index.php?">Mitarbeiter</a>
-    <a href="index.php?">Lager</a>
+    <a href="index.php?stores">Lager</a>
     <a href="index.php?customers-groups">Kundengruppen</a>
     <a href="index.php?">Labels</a>
     <a href="index.php?producers">Hersteller</a>
     <a href="index.php?">Produktgruppen</a>
     <a href="index.php?">Allergene</a>
-    <a href="index.php?"></a>
+    <a href="index.php?purchases">Einkauf Bestellung</a>
     <a href="index.php?"></a>
     <a href="index.php?"></a>
     <a href="index.php?"></a>

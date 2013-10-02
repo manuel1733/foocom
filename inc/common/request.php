@@ -10,7 +10,7 @@ class Request {
         if (empty($query)) {
             $this->query_parts = array();
         } else {
-            $this->query_parts = explode('-', preg_replace('/^([a-zA-Z0-9-]+).*/', '\1', $query));
+            $this->query_parts = explode('-', preg_replace('/^([a-zA-Z0-9-_]+).*/', '\1', $query));
         }
     }
 

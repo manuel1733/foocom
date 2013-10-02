@@ -27,15 +27,15 @@ $design->header('Produkt aendern');
     </tr>
     <tr>
         <td>Labels</td>
-        <td><select name="labels[]" multiple="multiple" size="3"><?= $this->out_options('labels') ?></select></td>
+        <td><select name="labels[]" multiple="multiple" size="3"><?= $this->out_options($labels) ?></select></td>
     </tr>
     <tr>
     	<td>Warengruppe</td>
-        <td><select name="product_groups[]" multiple="multiple" size="3"><?= $this->out_options('product_groups') ?></select></td>
+        <td><select name="product_groups[]" multiple="multiple" size="3"><?= $this->out_options($product_groups) ?></select></td>
     </tr>
     <tr>
         <td>Allergene</td>
-        <td><select name="allergens[]" multiple="multiple" size="3"><?= $this->out_options('allergens') ?></select></td>
+        <td><select name="allergens[]" multiple="multiple" size="3"><?= $this->out_options($allergens) ?></select></td>
     </tr>
     <tr>
         <td>N&auml;hrwerte</td>
@@ -47,7 +47,7 @@ $design->header('Produkt aendern');
     </tr>
     <tr>
         <td>Hersteller</td>
-        <td><select name="producer_id"><?= $this->out_options('producers') ?></select></td>
+        <td><select name="producer_id"><?= $this->out_options($producers, $producer_id) ?></select></td>
     </tr>
     <tr>
         <th colspan="2">Beschreibung</th>
@@ -59,12 +59,12 @@ $design->header('Produkt aendern');
         <th colspan="2">Bilder</th>
     </tr>
     <tr>
-        <td colspan="2">upload</td>
+        <td colspan="2"><input type="file" name="file" /></td>
     </tr>
     <tr>
         <th colspan="2">Kundengruppen</th>
     </tr>
-    <?php foreach($this->out_iterate('customer_groups') as $r): extract($r); ?>
+    <?php foreach($customer_groups as $r): extract($r); ?>
     <tr>
         <td align="center" colspan="2">
             <?= $name; ?>
@@ -77,13 +77,13 @@ $design->header('Produkt aendern');
     </tr>
     <tr>
         <td>Sichtbar</td>
-        <td><input type="checkbox" name="customer_display[<?= $id ?>]"<?= $thtis->out_checkbox($display) ?> /> </td>
+        <td><input type="checkbox" name="customer_display[<?= $id ?>]"<?= $this->out_checkbox($display) ?> /> </td>
     </tr>
     <?php endforeach; ?>
     <tr>
         <th colspan="2">Lieferanten</th>
     </tr>
-    <?php foreach($this->out_iterate('suppliers') as $r): extract($r); ?>
+    <?php foreach($suppliers as $r): extract($r); ?>
     <tr>
         <td align="center" colspan="2">
             <?= $name ?>
@@ -106,7 +106,7 @@ $design->header('Produkt aendern');
     <?php endforeach; ?>
     <tr>
         <td>Lieferanten</td>
-        <td>hinzuf&uuml;gen <select name="supplier_add"><option value="0">w&auml;hlen</option><?= $this->out_options('available_suppliers') ?></select></td>
+        <td>hinzuf&uuml;gen <select name="supplier_add"><option value="0">w&auml;hlen</option><?= $this->out_options($available_suppliers) ?></select></td>
     </tr>
     <tr>
         <td></td>

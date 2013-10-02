@@ -2,9 +2,9 @@
 
 defined('main') or die ('no direct access');
 
-include 'products.db.php';
+include 'purchases.db.php';
 
-$pdb = new Products_Database();
+$pdb = new Purchases_Database();
 
 switch ($request->param(1)) {
     case 'create' :

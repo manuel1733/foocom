@@ -5,12 +5,7 @@ defined('main') or die ('no direct access');
 class Products_Database extends Database {
 
     function suppliers_not($id) {
-        $suppliers = array();
-        $iter = $this->query("SELECT s.user_id, u.name FROM suppliers s, users u WHERE s.user_id = u.id AND u.id NOT IN (SELECT supplier_id FROM product_suppliers WHERE product_id = :id)", array('id' => $id));
-        foreach ($iter as $row) {
-            $suppliers[$row['user_id']] = $row['name'];
-        }
-        return $suppliers;
+        return $this->query("SELECT s.user_id id, u.name FROM suppliers s, users u WHERE s.user_id = u.id AND u.id NOT IN (SELECT supplier_id FROM product_suppliers WHERE product_id = :id)", array('id' => $id));
     }
 
     function suppliers_for($id) {
@@ -18,12 +13,7 @@ class Products_Database extends Database {
     }
 
     function producers() {
-        $producers = array();
-        $iter = $this->query("SELECT * FROM producers", array());
-        foreach ($iter as $row) {
-            $producers[$row['id']] = $row['name'];
-        }
-        return $producers;
+        return $this->query("SELECT * FROM producers");
     }
 
     function allergens_for($id) {
