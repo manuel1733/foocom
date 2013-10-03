@@ -8,4 +8,5 @@ $design->header('Startseite von food commerce (foocom)');
 hallo du :)
 
 <?php
+
 $design->footer();

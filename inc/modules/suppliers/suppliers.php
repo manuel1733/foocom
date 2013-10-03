@@ -15,6 +15,9 @@ switch ($request->param(1)) {
         $sdb->delete($request->param_as_number(2));
         header('location: index.php?suppliers');
         break;
+    case 'order' :
+        include 'order.php';
+        break;
     case 'change' :
         include 'change.php';
         break;

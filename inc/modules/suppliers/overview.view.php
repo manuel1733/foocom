@@ -24,7 +24,7 @@ $design->header('Lieferanten');
     <tr>
         <td><a href="index.php?suppliers-change-<?= $user_id ?>">&auml;ndern</a></td>
         <td><a href="index.php?suppliers-delete-<?= $user_id ?>">l&ouml;schen</a></td>
-        <td><a href="index.php?suppliers-order-<?= $user_id ?>">bestellen</a></td>
+        <td><a href="index.php?suppliers-order-create-<?= $user_id ?>">bestellen</a></td>
         <td><?= $name ?></td>
     </tr>
 

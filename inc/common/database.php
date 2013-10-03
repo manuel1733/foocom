@@ -12,7 +12,7 @@ abstract class Database {
         }
     }
 
-    public function run($query, array $fields) {
+    protected function run($query, array $fields) {
         $statement = $this->prepare($query, $fields);
         $statement->execute();
         $statement->closeCursor();
@@ -22,7 +22,7 @@ abstract class Database {
         return self::$db->lastInsertId();
     }
 
-    function query_for_row($query, array $fields) {
+    protected function query_for_row($query, array $fields) {
         $statement = $this->prepare($query, $fields);
         $statement->execute();
         $row = $statement->fetch(PDO::FETCH_ASSOC);
@@ -30,7 +30,7 @@ abstract class Database {
         return $row;
     }
 
-    function query_for_one($query, array $fields) {
+    protected function query_for_one($query, array $fields) {
         $statement = $this->prepare($query, $fields);
         $statement->execute();
         $row = $statement->fetch(PDO::FETCH_NUM);
@@ -38,7 +38,7 @@ abstract class Database {
         return $row[0];
     }
 
-    function query($sql, array $fields = array()) {
+    protected function query($sql, array $fields = array()) {
         $statement = $this->prepare($sql, $fields);
         $statement->execute();
         $rows = $statement->fetchAll(PDO::FETCH_ASSOC);
