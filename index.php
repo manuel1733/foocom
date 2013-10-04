@@ -7,12 +7,15 @@ define('main' , true);
 include 'inc/common/request.php';
 include 'inc/common/database.php';
 include 'inc/common/template.php';
+include 'inc/common/controller.php';
 include 'inc/designs/default/default.php';
 include 'inc/config.php';
 
 $request = new Request();
-$design = new Design();
 
 $module = $request->get_module();
-include 'inc/modules/' . $module . '/' . $module . '.php';
 
+include 'inc/modules/' . $module[1] . '.php';
+
+$controller = new $module[0]();
+$controller->handle($request);

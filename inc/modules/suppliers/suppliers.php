@@ -4,23 +4,16 @@ defined('main') or die ('no direct access');
 
 include 'suppliers.db.php';
 
-$sdb = new Suppliers_Database();
+class Suppliers extends Controller {
+    private $db;
 
-switch ($request->param(1)) {
-    case 'create' :
-        $id = $sdb->insert($request->populate(array('name' => '')));
-        header('location: index.php?suppliers-change-' . $id);
-        break;
-    case 'delete' :
-        $sdb->delete($request->param_as_number(2));
-        header('location: index.php?suppliers');
-        break;
-    case 'order' :
-        include 'order.php';
-        break;
-    case 'change' :
-        include 'change.php';
-        break;
-    default:
-        include 'overview.php';
+    function Suppliers() {
+        $this->db = new Suppliers_Database();
+    }
+
+    function handle(Request $request) {
+        $template = new Template('suppliers/suppliers');
+        $template->set_ar('suppliers', $this->db->all());
+        $template->display();
+    }
 }

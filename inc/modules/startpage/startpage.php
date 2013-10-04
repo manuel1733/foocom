@@ -1,7 +1,9 @@
 <?php
 
-defined('main') or die ('no direct access');
-
-
-$tpl = new Template('startpage/startpage');
-$tpl->out($design);
+class Startpage extends Controller {
+    function handle(Request $request) {
+        $template = new Template('startpage/startpage');
+        $template->set('name', 'du');
+        $template->display();
+    }
+}

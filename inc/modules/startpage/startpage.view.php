@@ -5,7 +5,7 @@ $design->header('Startseite von food commerce (foocom)');
 ?>
 
 <hr>
-hallo du :)
+hallo <?= $name ?> :)
 
 <?php
 

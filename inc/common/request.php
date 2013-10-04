@@ -10,15 +10,41 @@ class Request {
         if (empty($query)) {
             $this->query_parts = array();
         } else {
-            $this->query_parts = explode('-', preg_replace('/^([a-zA-Z0-9-_]+).*/', '\1', $query));
+            $this->query_parts = explode('-', preg_replace('/^([a-zA-Z0-9-]+).*/', '\1', $query));
         }
     }
 
     function get_module() {
-        if ($this->param_exists(0) && file_exists('inc/modules/' . $this->param(0) . '/' . $this->param(0) . '.php')) {
-            return $this->param(0);
+        return $this->find_module(0, array());
+    }
+
+    private function find_module($pos, array $parents) {
+        $param = $this->param($pos);
+
+        if (empty($param) || is_numeric($param) || $pos > 5) {
+            if ($pos == 0) {
+                return array('Startpage', 'startpage/startpage');
+            }
+            if ($pos == 1) {
+                $file = str_replace($parents[0] . '.', $parents[0] . '/', implode('.', array($parents[0], $parents[0])));
+            } else {
+                $file = str_replace($parents[0] . '.', $parents[0] . '/', implode('.', $parents));
+            }
+            if (file_exists('inc/modules/' . $file . '.php')) {
+                $classname = array_reduce($parents, function ($o, $s) {
+                    if ($o == null) {
+                        return ucfirst($s);
+                    } else {
+                        return $o . '_' . ucfirst($s);
+                    }
+                });
+                return array($classname, $file);
+            } else {
+                return array('Startpage', 'startpage/startpage');
+            }
         } else {
-            return 'startpage';
+            $parents[] = $param;
+            return $this->find_module($pos + 1, $parents);
         }
     }
 

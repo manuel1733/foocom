@@ -1,6 +1,12 @@
 <?php
 
+include 'inc/designs/default/default.php';
 
+class Products_view extends Template {
+
+    public function out() {
+
+$design = new Design();
 $design->header('Produkte');
 ?>
 
@@ -28,3 +34,5 @@ $design->header('Produkte');
 
 $design->footer();
 
+    }
+}

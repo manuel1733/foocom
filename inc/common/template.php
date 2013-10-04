@@ -46,23 +46,21 @@ class Template {
         }
     }
 
-    function set_row_iterator($key, Database_Result $iterator) {
-        $this->iterators[$key] = $iterator;
-    }
-
     /**
      * output html. prepare the values and include the view file.
      *
      * @param Design $design the design is used by the view file. The view file will set the header and footer.
      *
      */
-    function out(Design $design) {
+    function display() {
+        $design = new Design();
+
         extract($this->keys);
 
         include $this->file;
     }
 
-    function out_options(array $rows, $selected = null) {
+    protected function out_options(array $rows, $selected = null) {
         foreach ($rows as $row) {
             $k = $row['id'];
             $v = $row['name'];
@@ -74,7 +72,7 @@ class Template {
         }
     }
 
-    function out_checkbox($value) {
+    protected function out_checkbox($value) {
         if ($value == 0) {
             return '';
         } else {
