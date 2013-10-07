@@ -44,7 +44,7 @@ $design->header('Einkauf Bestellung');
 
     <?php endforeach; ?>
 
-    <?php if ($product_search == 1): ?>
+    <?php if ($product_search == 2): ?>
 
     <tr>
         <td colspan="3">Produkt hinzuf&uuml;gen</td>
