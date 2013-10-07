@@ -1,15 +1,15 @@
 <?php
 
-defined('main') or die ('no direct access');
+defined('admin') or die ('no direct access');
 
 class Products_Database extends Database {
 
     function suppliers_not($id) {
-        return $this->query("SELECT s.user_id id, u.name FROM suppliers s, users u WHERE s.user_id = u.id AND u.id NOT IN (SELECT supplier_id FROM product_suppliers WHERE product_id = :id)", array('id' => $id));
+        return $this->query("SELECT id, name FROM suppliers WHERE id NOT IN (SELECT supplier_id FROM product_suppliers WHERE product_id = :id)", array('id' => $id));
     }
 
     function suppliers_for($id) {
-        return $this->query("SELECT u.id, u.name, ps.purchase_price, ps.order_quantity, ps.product_number FROM product_suppliers ps, suppliers s, users u WHERE u.id = s.user_id AND s.user_id = ps.supplier_id AND ps.product_id = :id", array('id' => $id));
+        return $this->query("SELECT id, name, ps.purchase_price, ps.order_quantity, ps.product_number FROM product_suppliers ps, suppliers s WHERE s.id = ps.supplier_id AND ps.product_id = :id", array('id' => $id));
     }
 
     function producers() {

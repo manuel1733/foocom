@@ -36,16 +36,16 @@ if ($request->is_post()) {
     $fields = $request->populate($fields);
     if ($user_id == 0) {
         $customer_db->insert($fields);
-        header('location: index.php?customers-' . $user_id);
+        header('location: admin.php?customers-' . $user_id);
     } else {
         $customer_db->update($user_id, $fields);
-        header('location: index.php?customers-' . $user_id);
+        header('location: admin.php?customers-' . $user_id);
     }
     exit(0);
 } elseif (!empty($user_id)) {
     if ($request->param(2) == 'delete') {
         $customer_db->delete($user_id);
-        header('location: index.php?customers');
+        header('location: admin.php?customers');
     }
 
     $fields = $customer_db->get($user_id);

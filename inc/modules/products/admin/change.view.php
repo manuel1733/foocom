@@ -6,7 +6,8 @@ $design->header('Produkt aendern');
 
 <h1>Produkte</h1>
 
-<form action="index.php?products-change-<?= $id ?>" method="post">
+<form action="admin.php?products-change-<?= $id ?>" method="post">
+<?= $this->insert_csrf_token('products-change') ?>
 
 <table>
     <tr>

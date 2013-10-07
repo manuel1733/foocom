@@ -1,8 +1,8 @@
 <?php
 
-defined('main') or die ('no direct access');
+defined('admin') or die ('no direct access');
 
-include 'suppliers.db.php';
+include 'db.php';
 
 class Suppliers extends Controller {
     private $db;
@@ -12,7 +12,7 @@ class Suppliers extends Controller {
     }
 
     function handle(Request $request) {
-        $template = new Template('suppliers/suppliers');
+        $template = new Template('suppliers', 'suppliers');
         $template->set_ar('suppliers', $this->db->all());
         $template->display();
     }

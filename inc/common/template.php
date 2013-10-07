@@ -1,13 +1,14 @@
 <?php
 
-defined ('main') or die ('no direct access');
+(defined('main') || defined('admin')) or die ('no direct access');
 
 class Template {
     private $file;
     private $keys;
 
-    function Template($file) {
-        $this->file = 'inc/modules/' . $file . '.view.php';
+    function Template($module, $file) {
+        $admin = defined('admin') ? 'admin/' : '';
+        $this->file = 'inc/modules/' . $module . '/' . $admin . $file . '.view.php';
         $this->keys  = array();
     }
 
@@ -77,6 +78,14 @@ class Template {
             return '';
         } else {
             return ' checked="checked"';
+        }
+    }
+
+    protected function insert_csrf_token($name) {
+        if (session_status() == PHP_SESSION_ACTIVE) {
+            $token = md5(mt_rand() . time() . $name);
+            $_SESSION['_csrf_token_' . $name] = $token;
+            echo '<input type="hidden" name="csrf_token" value="' . $token . '" />';
         }
     }
 }

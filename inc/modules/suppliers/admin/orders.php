@@ -20,14 +20,27 @@
  *
  */
 
+defined('admin') or die ('no direct access');
 
-switch ($request->param(2)) {
-    case 'create' :
-        $sid = $request->param_as_number(3);
-        $id = $sdb->create_order($sid);
-        header('location: index.php?suppliers-order-change-' . $id);
-        break;
-    case 'change' :
-        include 'order_change.php';
-        break;
+include 'db.php';
+
+class Suppliers_Orders extends Controller {
+    private $db;
+
+    function Suppliers_Orders() {
+        $this->db = new Suppliers_Database();
+    }
+
+    function handle(Request $request) {
+        $supplier_id = $request->param_as_number(2);
+        if ($request->is_post('supplier-order-create')) {
+            $order_id = $this->db->create_order($supplier_id);
+            $request->forward('suppliers-orders-change-' . $order_id);
+        } else {
+            $template = new Template('suppliers', 'orders');
+            $template->set('id', $supplier_id);
+            $template->set_ar('orders', $this->db->all_orders($supplier_id));
+            $template->display();
+        }
+    }
 }

@@ -1,6 +1,6 @@
 <?php
 
-defined ('main') or die ('no direct access');
+(defined('main') || defined('admin')) or die ('no direct access');
 
 abstract class Database {
     protected static $db = false;

@@ -14,16 +14,16 @@ if ($request->is_post()) {
     $fields = $request->populate($fields);
     if ($id == 0) {
         $id = $customer_db->insert_group($fields);
-        header('location: index.php?customers-groups-' . $id);
+        header('location: admin.php?customers-groups-' . $id);
     } else {
         $customer_db->update_group($id, $fields);
-        header('location: index.php?customers-groups-' . $id);
+        header('location: admin.php?customers-groups-' . $id);
     }
     exit(0);
 } elseif (!empty($id)) {
     if ($request->param(3) == 'delete') {
         $customer_db->delete_group($id);
-        header('location: index.php?customers-groups');
+        header('location: admin.php?customers-groups');
     }
 
     $fields = $customer_db->get_group($id);

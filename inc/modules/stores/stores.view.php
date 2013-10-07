@@ -6,7 +6,7 @@ $design->header('Lagerverwaltung');
 
 <h1>Lagerverwaltung</h1>
 
-<form action="index.php?stores" method="post">
+<form action="admin.php?stores" method="post">
 
 <table>
 

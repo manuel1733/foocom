@@ -4,7 +4,8 @@ $design->header('Lieferant &auml;ndern');
 
 ?>
 
-<form action="index.php?suppliers-change-<?= $id ?>" method="post">
+<form action="admin.php?suppliers-change-<?= $id ?>" method="post">
+<?= $this->insert_csrf_token('suppliers-change') ?>
 
 <h2>Lieferant &auml;ndern</h2>
 

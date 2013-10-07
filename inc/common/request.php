@@ -1,12 +1,15 @@
 <?php
 
-defined ('main') or die ('no direct access');
+(defined('main') || defined('admin')) or die ('no direct access');
 
 class Request {
     private $query_parts;
 
     function Request() {
-        $query = $_SERVER['QUERY_STRING'];
+        $this->rest($_SERVER['QUERY_STRING']);
+    }
+
+    function rest($query) {
         if (empty($query)) {
             $this->query_parts = array();
         } else {
@@ -22,13 +25,14 @@ class Request {
         $param = $this->param($pos);
 
         if (empty($param) || is_numeric($param) || $pos > 5) {
+            $admin = defined('admin') ? 'admin/' : '';
             if ($pos == 0) {
-                return array('Startpage', 'startpage/startpage');
+                return array('Startpage', 'startpage/' . $admin . 'startpage');
             }
             if ($pos == 1) {
-                $file = str_replace($parents[0] . '.', $parents[0] . '/', implode('.', array($parents[0], $parents[0])));
+                $file = str_replace($parents[0] . '.', $parents[0] . '/' . $admin, implode('.', array($parents[0], $parents[0])));
             } else {
-                $file = str_replace($parents[0] . '.', $parents[0] . '/', implode('.', $parents));
+                $file = str_replace($parents[0] . '.', $parents[0] . '/' . $admin, implode('.', $parents));
             }
             if (file_exists('inc/modules/' . $file . '.php')) {
                 $classname = array_reduce($parents, function ($o, $s) {
@@ -40,7 +44,7 @@ class Request {
                 });
                 return array($classname, $file);
             } else {
-                return array('Startpage', 'startpage/startpage');
+                return array('Startpage', 'startpage/' . $admin . 'startpage');
             }
         } else {
             $parents[] = $param;
@@ -76,8 +80,11 @@ class Request {
         return preg_replace('/\D/', '', $this->param($pos));
     }
 
-    function is_post() {
-        return $_SERVER['REQUEST_METHOD'] == 'POST';
+    function is_post($name) {
+        return $_SERVER['REQUEST_METHOD'] == 'POST'
+            && session_status() == PHP_SESSION_ACTIVE
+            && !empty($_SESSION['_csrf_token_' . $name])
+            && $this->param('csrf_token') == $_SESSION['_csrf_token_' . $name];
     }
 
     function populate(array $fields) {
@@ -85,5 +92,16 @@ class Request {
             $fields[$key] = $_POST[$key];
         }
         return $fields;
+    }
+
+    public function forward($query, $message = null) {
+        if (!is_null($message)) {
+            $_SESSION['state_message'] = $message;
+        }
+        if (defined('admin')) {
+            header('location: admin.php?' . $query);
+        } else {
+            header('location: index.php?' . $query);
+        }
     }
 }

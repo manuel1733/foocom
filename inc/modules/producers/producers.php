@@ -15,16 +15,16 @@ if ($request->is_post()) {
     $fields = $request->populate($fields);
     if ($id == 0) {
         $id = $db->insert($fields);
-        header('location: index.php?producers-' . $id);
+        header('location: admin.php?producers-' . $id);
     } else {
         $db->update($id, $fields);
-        header('location: index.php?producers-' . $id);
+        header('location: admin.php?producers-' . $id);
     }
     exit(0);
 } elseif (!empty($id)) {
     if ($request->param(3) == 'delete') {
         $db->delete($id);
-        header('location: index.php?producers');
+        header('location: admin.php?producers');
     }
 
     $fields = $db->get($id);
