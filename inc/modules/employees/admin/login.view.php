@@ -11,16 +11,16 @@ $design->header('Login', $menu);
     <h1>Login</h1>
 	<table>
 		<tr>
-			<td>Mail</td>
+			<td>E-Mail</td>
 			<td><input name="mail" /></td>
 		</tr>
 		<tr>
-			<td>Password</td>
+			<td>Passwort</td>
 			<td><input type="password" name="password" /></td>
 		</tr>
 		<tr>
 		    <td></td>
-		    <td><input type="submit" value="login" /></td>
+		    <td><input type="submit" value="anmelden" /></td>
 	    </tr>
 	</table>
 

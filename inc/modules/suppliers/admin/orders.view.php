@@ -16,14 +16,22 @@ $design->header('Lieferanten Bestellung');
     <tr>
         <th>#</th>
         <th>#</th>
+        <th>#</th>
         <th>Nummer</th>
     </tr>
 
     <?php foreach($orders as $r): extract($r); ?>
 
     <tr>
-        <td><a href="admin.php?suppliers-change-<?= $id ?>">&auml;ndern</a></td>
+        <?php if ($state == 0 ): ?>
+        <td><a href="admin.php?suppliers-orders-change-<?= $id ?>">&auml;ndern</a></td>
         <td><a href="admin.php?suppliers-delete-<?= $id ?>">l&ouml;schen</a></td>
+        <td><a href="admin.php?suppliers-orders-close-<?= $id ?>">schliessen</a></td>
+        <?php elseif($state == 1): ?>
+        <td><a href="admin.php?suppliers-orders-pdf-<?= $id ?>">pdf</a></td>
+        <td><a href="admin.php?suppliers-orders-close-<?= $id ?>">e-dec</a></td>
+        <td><a href="admin.php?suppliers-orders-receipt-<?= $id ?>">eingang</a></td>
+        <?php endif; ?>
         <td><?= $id ?></td>
     </tr>
 

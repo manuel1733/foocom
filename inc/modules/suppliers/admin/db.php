@@ -30,7 +30,7 @@ class Suppliers_Database extends Database {
 
     function all_orders($supplier_id) {
         $fields = array('supplier_id' => $supplier_id);
-        return $this->query("SELECT id FROM supplier_orders WHERE supplier_id = :supplier_id ORDER BY id DESC", $fields);
+        return $this->query("SELECT id, state FROM supplier_orders WHERE supplier_id = :supplier_id ORDER BY id DESC", $fields);
     }
 
     function countries() {
@@ -118,5 +118,13 @@ class Suppliers_Database extends Database {
         $purchase_price = $this->query_for_one("SELECT purchase_price FROM product_suppliers WHERE product_id = :product_id AND supplier_id = :supplier_id", $fields);
         $fields = array('order_id' => $order_id, 'product_id' => $product_id, 'order_quantity' => $order_quantity, 'purchase_price' => $purchase_price);
         $this->run("UPDATE supplier_order_products SET order_quantity = :order_quantity, purchase_price = :purchase_price WHERE order_id = :order_id AND product_id = :product_id", $fields);
+    }
+
+    function order_state($order_id, $new_state) {
+        $fields = array('order_id' => $order_id);
+        $supplier_id = $this->query_for_one("SELECT supplier_id FROM supplier_orders WHERE id = :order_id", $fields);
+        $fields['state'] = $new_state;
+        $this->run("UPDATE supplier_orders SET state = :state WHERE id = :order_id", $fields);
+        return $supplier_id;
     }
 }

@@ -41,6 +41,9 @@ class Design {
    Hallo <?= $_SESSION['auth']['name'] ?> <a href="admin.php?employees-logout">abmelden</a>
 
     <br />
+    <hr>
+    <br>
+
     <?php endif; ?>
 
     <?php
@@ -50,8 +53,7 @@ class Design {
     }
     ?>
 
-    <hr>
-    <br>
+
 
 <?php
     }
