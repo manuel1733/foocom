@@ -6,11 +6,11 @@ $design->header('Lagerverwaltung');
 
 <h1>Lagerverwaltung</h1>
 
-<form action="admin.php?stores" method="post">
-
+<form action="admin.php?storages" method="post">
+<?= $this->insert_csrf_token('storages') ?>
 <table>
 
-<?php foreach($stores as $r): ?>
+<?php foreach($storages as $r): ?>
 
     <tr>
         <td>Lager</td>

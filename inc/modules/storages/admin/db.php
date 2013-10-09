@@ -1,13 +1,13 @@
 <?php
 
-class Stores_Database extends Database {
+class Storages_Database extends Database {
 
     function insert(array $fields) {
-        $this->run("INSERT INTO stores (id, name) VALUES (null, :new_name)", $fields);
+        $this->run("INSERT INTO storages (id, name) VALUES (null, :new_name)", $fields);
     }
 
     function update($id, $name) {
-        $this->run("UPDATE stores SET name = :name WHERE id = :id", array('id' => $id, 'name' => $name));
+        $this->run("UPDATE storages SET name = :name WHERE id = :id", array('id' => $id, 'name' => $name));
     }
 
     function insert_yard($store_id, $number) {
@@ -20,10 +20,10 @@ class Stores_Database extends Database {
         $this->run("UPDATE storage_yards SET number = :number WHERE id = :id", $fields);
     }
 
-    function stores() {
+    function storages() {
         $stores = array();
-        foreach ($this->query("SELECT * FROM stores") as $r) {
-            $r['yards'] = $this->query("SELECT * FROM storage_yards WHERE store_id = :store_id", array('store_id' => $r['id']));
+        foreach ($this->query("SELECT * FROM storages") as $r) {
+            $r['yards'] = $this->query("SELECT * FROM storage_yards WHERE storage_id = :storage_id", array('storage_id' => $r['id']));
             $stores[] = $r;
         }
         return $stores;

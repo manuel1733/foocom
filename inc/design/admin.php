@@ -41,7 +41,7 @@ class Design {
     <br />- <a href="admin.php?customers-groups">Kundengruppen</a>
     </div>
     <div><a href="admin.php?employees">Mitarbeiter</a></div>
-    <div><a href="admin.php?stores">Lager</a></div>
+    <div><a href="admin.php?storages">Lager</a></div>
 
     <div id="user">
    Hallo <?= $_SESSION['auth']['name'] ?> <a href="admin.php?employees-logout">abmelden</a>

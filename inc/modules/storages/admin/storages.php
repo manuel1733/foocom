@@ -1,21 +1,20 @@
 <?php
 
-include 'stores.db.php';
+include 'db.php';
 
-class Stores extends Controller {
+class Storages extends Controller {
     private $db;
 
-    function Stores() {
-        $this->db = new Stores_Database();
+    function Storages() {
+        $this->db = new Storages_Database();
     }
 
     function handle(Request $request) {
-        // TODO: add check to prevent cross site request forgery.
-        if ($request->is_post()) {
+        if ($request->is_post('storages')) {
             $this->handle_formular_submit($request);
         } else {
-            $template = new Template('stores/stores');
-            $template->set_ar('stores', $this->db->stores());
+            $template = new Template('storages', 'storages');
+            $template->set_ar('storages', $this->db->storages());
             $template->display();
         }
     }
