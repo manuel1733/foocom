@@ -6,7 +6,7 @@ $design->header('Produkt aendern');
 
 <h1>Produkte</h1>
 
-<form action="admin.php?products-change-<?= $id ?>" method="post">
+<form action="admin.php?products-change-<?= $id ?>" method="post" enctype="multipart/form-data">
 <?= $this->insert_csrf_token('products-change') ?>
 
 <table>
@@ -60,7 +60,10 @@ $design->header('Produkt aendern');
         <th colspan="2">Bilder</th>
     </tr>
     <tr>
-        <td colspan="2"><input type="file" name="file" /></td>
+        <td colspan="2">
+            <input type="file" name="image" />
+            <img src="inc/modules/products/images/<?= $id ?>.jpeg" />
+        </td>
     </tr>
     <tr>
         <th colspan="2">Kundengruppen</th>

@@ -26,11 +26,11 @@ class Products_Change extends Controller {
         if ($request->is_post('products-change')) {
             $this->handle_formular_submit($request);
         } else {
-            $this->handle_overview($request);
+            $this->handle_formular_show($request);
         }
     }
 
-    private function handle_overview(Request $request) {
+    private function handle_formular_show(Request $request) {
         $id = $request->param(2);
         $template = new Template('products', 'change');
         $template->set('id', $id);
@@ -53,6 +53,8 @@ class Products_Change extends Controller {
         $this->handle_select($request, $this->db->labels_for($id), $id, 'labels');
         $this->handle_select($request, $this->db->product_groups_for($id), $id, 'product_groups');
         $this->handle_select($request, $this->db->allergens_for($id), $id, 'allergens');
+
+        $this->handle_image($id);
 
         $customer_price = $request->param('customer_price');
         $customer_display = $request->param('customer_display');
@@ -99,5 +101,29 @@ class Products_Change extends Controller {
                 }
             }
         }
+    }
+
+    private function handle_image($id) {
+        if (!empty($_FILES['image']['type']) && $_FILES['image']['type'] == 'image/jpeg') {
+            $sour­cePath = 'images/'; // Path of orig­i­nal image
+            $sourceUrl = 'http://domain.com/images/';
+            $source­Name = 'test.jpg'; // Name of orig­i­nal image
+            $thumb­Path = $sour­cePath . 'thumbs/'; // Write­able thumb path
+            $thum­bUrl = $sourceUrl . 'thumbs/';
+            $thumb­Name = "test_thumb.jpg"; // Tip: Name dynam­i­cally
+            $thumb­Width = 60; // Intended dimen­sion of thumb
+
+            // Beyond this point is sim­ply code.
+            $sour­ceIm­age = image­cre­ate­fromjpeg($_FILES['image']['tmp_name']);
+            $sourceWidth = imagesx($sour­ceIm­age);
+            $source­Height = imagesy($sour­ceIm­age);
+
+            $tar­ge­tIm­age = image­cre­ate($thumbWidth,$thumbWidth);
+            image­copy­re­sized($targetImage,$sourceImage,0,0,0,0,$thumbWidth,
+                $thumbWidth,imagesx($sourceImage),imagesy($sourceImage));
+            image­jpeg($tar­ge­tIm­age, 'inc/modules/products/images/' . $id . '.jpeg');
+        }
+
+        // move_uploaded_file($_FILES['image']['tmp_name'], 'inc/modules/products/images/' . $id . '.' . $suffix);
     }
 }
