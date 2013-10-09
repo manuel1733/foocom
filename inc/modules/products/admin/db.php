@@ -101,4 +101,76 @@ class Products_Database extends Database {
         $fields = array('id' => $id, 'supplier_id' => $supplier_id);
         $this->run("DELETE FROM product_suppliers WHERE product_id = :id AND supplier_id = :supplier_id", $fields);
     }
+
+    // LABELS
+
+    function labels_insert(array $fields) {
+        $this->run("INSERT INTO labels (id, name) VALUES (null, :name)", $fields);
+        return $this->insert_id();
+    }
+
+    function labels_update($id, array $fields) {
+        $fields['id'] = $id;
+        $this->run("UPDATE labels SET name = :name WHERE id = :id", $fields);
+    }
+
+    function labels_delete($id) {
+        $this->run("DELETE FROM labels WHERE id = :id", array('id' => $id));
+    }
+
+    function labels_get($id) {
+        return $this->query_for_row("SELECT * FROM labels WHERE id = :id", array('id' => $id));
+    }
+
+    function labels_all() {
+        return $this->query("SELECT * FROM labels", array());
+    }
+
+    // ALLERGENS
+
+    function allergens_insert(array $fields) {
+        $this->run("INSERT INTO allergens (id, name) VALUES (null, :name)", $fields);
+        return $this->insert_id();
+    }
+
+    function allergens_update($id, array $fields) {
+        $fields['id'] = $id;
+        $this->run("UPDATE allergens SET name = :name WHERE id = :id", $fields);
+    }
+
+    function allergens_delete($id) {
+        $this->run("DELETE FROM allergens WHERE id = :id", array('id' => $id));
+    }
+
+    function allergens_get($id) {
+        return $this->query_for_row("SELECT * FROM allergens WHERE id = :id", array('id' => $id));
+    }
+
+    function allergens_all() {
+        return $this->query("SELECT * FROM allergens", array());
+    }
+
+    // GROUPS
+
+    function groups_insert(array $fields) {
+        $this->run("INSERT INTO product_groups (id, name) VALUES (null, :name)", $fields);
+        return $this->insert_id();
+    }
+
+    function groups_update($id, array $fields) {
+        $fields['id'] = $id;
+        $this->run("UPDATE product_groups SET name = :name WHERE id = :id", $fields);
+    }
+
+    function groups_delete($id) {
+        $this->run("DELETE FROM product_groups WHERE id = :id", array('id' => $id));
+    }
+
+    function groups_get($id) {
+        return $this->query_for_row("SELECT * FROM product_groups WHERE id = :id", array('id' => $id));
+    }
+
+    function groups_all() {
+        return $this->query("SELECT * FROM product_groups", array());
+    }
 }

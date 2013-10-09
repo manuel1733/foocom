@@ -13,32 +13,43 @@ class Design {
         <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
         <title><?php echo $title; ?></title>
         <link href="inc/design/style.css" media="all" rel="stylesheet" type="text/css" />
-        <!-- <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />  -->
+        <!-- <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
         <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
-        <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+        <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script> -->
     </head>
     <body>
 
     <?php if ($menu): ?>
-    <a href="admin.php">Start</a>
-    <a href="admin.php?suppliers">Lieferanten</a>
-    <a href="admin.php?vouchers">Gutscheine</a>
-    <a href="admin.php?products">Produkte</a>
-    <a href="admin.php?customers">Kunden</a>
-    <a href="admin.php?employees">Mitarbeiter</a>
-    <a href="admin.php?stores">Lager</a>
-    <a href="admin.php?customers-groups">Kundengruppen</a>
-    <a href="admin.php?">Labels</a>
-    <a href="admin.php?producers">Hersteller</a>
-    <a href="admin.php?">Produktgruppen</a>
-    <a href="admin.php?">Allergene</a>
-    <a href="admin.php?purchases">Einkauf Bestellung</a>
-    <a href="admin.php?"></a>
-    <a href="admin.php?"></a>
-    <a href="admin.php?"></a>
-    <a href="admin.php?"></a>
+    <div id="menu">
 
+    <div><a href="admin.php">Start</a></div>
+
+    <div><a href="admin.php?suppliers">Lieferanten</a></div>
+
+    <div>
+    <a href="admin.php?products">Produkte</a>
+    <br />- <a href="admin.php?products-groups">Produktgruppen</a>
+    <br />- <a href="admin.php?products-allergens">Allergene</a>
+    <br />- <a href="admin.php?products-labels">Labels</a>
+    <br />- <a href="admin.php?producers">Hersteller</a>
+    </div>
+
+
+    <div><a href="admin.php?vouchers">Gutscheine</a></div>
+
+    <div><a href="admin.php?customers">Kunden</a>
+    <br />- <a href="admin.php?customers-groups">Kundengruppen</a>
+    </div>
+    <div><a href="admin.php?employees">Mitarbeiter</a></div>
+    <div><a href="admin.php?stores">Lager</a></div>
+
+    <div id="user">
    Hallo <?= $_SESSION['auth']['name'] ?> <a href="admin.php?employees-logout">abmelden</a>
+   </div>
+    </div>
+
+    <br style="clear: both" />
+
 
     <br />
     <hr>

@@ -43,6 +43,11 @@ class Suppliers_Database extends Database {
         return $this->insert_id();
     }
 
+    function order_supplier($order_id) {
+        $fields = array('order_id' => $order_id);
+        return $this->query_for_one("SELECT supplier_id FROM supplier_orders WHERE id = :order_id", $fields);
+    }
+
     function order_product_count($order_id) {
         $fields = array('order_id' => $order_id);
         return $this->query_for_one("SELECT COUNT(*) FROM supplier_order_products WHERE order_id = :order_id", $fields);
@@ -64,7 +69,7 @@ class Suppliers_Database extends Database {
                 GREATEST(p.order_quantity, ps.order_quantity, p.min_stock - COALESCE(b.stock_amount, 0)) as order_amount
             FROM product_suppliers ps
                 INNER JOIN products p ON p.id = ps.product_id
-                LEFT JOIN (SELECT product_id, SUM(stock_amount) stock_amount FROM batches GROUP BY product_id) b ON p.id = b.product_id
+                LEFT JOIN (SELECT product_id, SUM(storage_quantity) stock_amount FROM batches GROUP BY product_id) b ON p.id = b.product_id
             WHERE supplier_id = :supplier_id
               AND p.min_stock > 0
               AND COALESCE(b.stock_amount, 0) < p.min_stock
@@ -87,7 +92,7 @@ class Suppliers_Database extends Database {
                 INNER JOIN supplier_orders sp ON sp.id = sop.order_id
                 INNER JOIN product_suppliers ps ON ps.product_id = sop.product_id AND ps.supplier_id = sp.supplier_id
                 INNER JOIN products p ON p.id = sop.product_id
-                LEFT JOIN (SELECT product_id, SUM(stock_amount) stock_amount FROM batches GROUP BY product_id) b ON p.id = b.product_id
+                LEFT JOIN (SELECT product_id, SUM(storage_quantity) stock_amount FROM batches GROUP BY product_id) b ON p.id = b.product_id
             WHERE sop.order_id = :order_id
             ORDER BY p.id DESC", $fields);
     }
@@ -126,5 +131,45 @@ class Suppliers_Database extends Database {
         $fields['state'] = $new_state;
         $this->run("UPDATE supplier_orders SET state = :state WHERE id = :order_id", $fields);
         return $supplier_id;
+    }
+
+    function storage_yards() {
+        return $this->query("SELECT id, number name FROM storage_yards ORDER BY number");
+    }
+
+    function batches($order_id, $product_id) {
+        $fields = array('order_id' => $order_id, 'product_id' => $product_id);
+        return $this->query("SELECT b.id ib, b.*, y.* FROM batches b, storage_yard_batches y WHERE b.id = y.batch_id AND order_id = :order_id AND product_id = :product_id", $fields);
+    }
+
+    function batch_delete($batch_id) {
+        $this->batch_delete_storage_yard($batch_id);
+        $fields = array('batch_id' => $batch_id);
+        $this->run("DELETE FROM batches WHERE id = :batch_id", $fields);
+    }
+
+    function batch_update($batch_id, $order_quantity, $storage_yard, $best_before) {
+        $this->batch_delete_storage_yard($batch_id);
+        $fields = array('batch_id' => $batch_id, 'storage_yard_id' => $storage_yard);
+        $this->run("INSERT INTO storage_yard_batches VALUES (:storage_yard_id, :batch_id)", $fields);
+        $fields = array('batch_id' => $batch_id, 'order_quantity' => $order_quantity, 'best_before' => $best_before, 'storage_quantity' => $order_quantity);
+        $this->run("UPDATE batches SET order_quantity = :order_quantity, best_before = :best_before, storage_quantity = :storage_quantity WHERE id = :batch_id", $fields);
+    }
+
+    function batch_insert($order_id, $product_id, $order_quantity, $storage_yard, $best_before) {
+        $fields = array('order_id' => $order_id, 'product_id' => $product_id, 'order_quantity' => $order_quantity, 'best_before' => $best_before, 'storage_quantity' => $order_quantity);
+        $this->run("INSERT INTO batches (id, order_id, product_id, best_before, order_quantity, storage_quantity) VALUES (null, :order_id, :product_id, :best_before, :order_quantity, :storage_quantity)", $fields);
+        $batch_id = $this->insert_id();
+        $this->batch_insert_storage_yard($batch_id, $storage_yard);
+    }
+
+    private function batch_delete_storage_yard($batch_id) {
+        $fields = array('batch_id' => $batch_id);
+        $this->run("DELETE FROM storage_yard_batches WHERE batch_id = :batch_id", $fields);
+    }
+
+    private function batch_insert_storage_yard($batch_id, $storage_yard_id) {
+        $fields = array('batch_id' => $batch_id, 'storage_yard_id' => $storage_yard_id);
+        $this->run("INSERT INTO storage_yard_batches VALUES (:storage_yard_id, :batch_id)", $fields);
     }
 }

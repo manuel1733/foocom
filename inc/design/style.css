@@ -13,17 +13,13 @@ a:hover {
 	color: black;
 }
 
-.ui-selectable {
-	list-style-type: none;
-	margin: 0;
-	padding: 0;
+#menu div {
+	float: left;
+	margin-right: 10px;
+	border: 1px dashed black;
+	padding: 10px;
 }
 
-.ui-selectable li:hover {
-	cursor: pointer;
+#menu div#user {
+	float: right;
 }
-
-.ui-selected {
-	text-decoration: underline;
-}
-

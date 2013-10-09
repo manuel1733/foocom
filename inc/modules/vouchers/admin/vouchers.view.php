@@ -1,10 +1,32 @@
 <?php
 
-defined('main') or die ('no direct access');
+defined('admin') or die ('no direct access');
 
 $design->header('Gutscheine');
 
 ?>
+
+<h1>Gutscheine</h1>
+
+<form action="admin.php?vouchers" method="post">
+<?= $this->insert_csrf_token('vouchers') ?>
+
+<table>
+    <tr>
+        <td>Code</td>
+        <td><input name="code" /></td>
+    </tr>
+    <tr>
+        <td>Nachlass</td>
+        <td><input name="discount" size="10" /> <select><option>Prozent</option><option>Betrag</option></select></td>
+    </tr>
+    <tr>
+        <td>Beschreibung</td>
+        <td><input name="description" size="50" /></td>
+    </tr>
+</table>
+
+</form>
 
 hier kann man einerseits gutschein codes erfassen
 <br>
