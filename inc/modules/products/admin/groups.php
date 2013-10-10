@@ -2,7 +2,7 @@
 
 defined('admin') or die ('no direct access');
 
-include 'db.php';
+include 'inc/modules/products/admin/db.php';
 
 class Products_Groups extends Controller {
     private $db;
@@ -12,6 +12,7 @@ class Products_Groups extends Controller {
         $this->db = new Products_Database();
         $this->fields = array(
             'name' => '',
+            'parent_id' => '',
         );
     }
 
@@ -35,6 +36,7 @@ class Products_Groups extends Controller {
                 $template->set_ar($this->db->groups_get($id));
             }
             $template->set_ar('groups', $this->db->groups_all());
+            $template->set_ar('groups_select', $this->db->groups_all($id));
             $template->display();
         }
     }

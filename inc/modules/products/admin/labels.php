@@ -2,7 +2,7 @@
 
 defined('admin') or die ('no direct access');
 
-include 'db.php';
+include 'inc/modules/products/admin/db.php';
 
 class Products_Labels extends Controller {
     private $db;
@@ -18,7 +18,7 @@ class Products_Labels extends Controller {
     function handle(Request $request) {
         $id = $request->param_as_number(2);
 
-        if ($request->is_post('product-labels')) {
+        if ($request->is_post('products-labels')) {
             $fields = $request->populate($this->fields);
             if ($id == 0) {
                 $id = $this->db->labels_insert($fields);

@@ -1,6 +1,6 @@
 <?php
 
-include 'db.php';
+include 'inc/modules/employees/admin/db.php';
 
 class Employees_Login extends Controller {
     private $db;

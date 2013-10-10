@@ -22,7 +22,7 @@ $design->header('Produkt Gruppen');
 	</tr>
 	<tr>
 		<td>Eltern Gruppe</td>
-		<td><select name="parent"><option>w&auml;hlen</option><?= $this->out_options($groups, $group) ?></select></td>
+		<td><select name="parent_id"><option value="0">w&auml;hlen</option><?= $this->out_options($groups_select, $parent_id) ?></select></td>
 	</tr>
 	<tr>
 		<td></td>

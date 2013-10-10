@@ -49,7 +49,11 @@ abstract class Database {
     private function prepare($query, array $fields) {
         $statement = self::$db->prepare($query);
         foreach ($fields as $key => $value) {
-            $statement->bindValue(':' . $key, $value);
+            if (is_integer($key)) {
+                $statement->bindValue($key + 1, $value);
+            } else {
+                $statement->bindValue(':' . $key, $value);
+            }
         }
         return $statement;
     }

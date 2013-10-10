@@ -153,13 +153,13 @@ class Products_Database extends Database {
     // GROUPS
 
     function groups_insert(array $fields) {
-        $this->run("INSERT INTO product_groups (id, name) VALUES (null, :name)", $fields);
+        $this->run("INSERT INTO product_groups (id, name, parent_id) VALUES (null, :name, :parent_id)", $fields);
         return $this->insert_id();
     }
 
     function groups_update($id, array $fields) {
         $fields['id'] = $id;
-        $this->run("UPDATE product_groups SET name = :name WHERE id = :id", $fields);
+        $this->run("UPDATE product_groups SET name = :name, parent_id = :parent_id WHERE id = :id", $fields);
     }
 
     function groups_delete($id) {
@@ -170,7 +170,7 @@ class Products_Database extends Database {
         return $this->query_for_row("SELECT * FROM product_groups WHERE id = :id", array('id' => $id));
     }
 
-    function groups_all() {
-        return $this->query("SELECT * FROM product_groups", array());
+    function groups_all($id = 0) {
+        return $this->query("SELECT * FROM product_groups WHERE id != ?", array($id));
     }
 }

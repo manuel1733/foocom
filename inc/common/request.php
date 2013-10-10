@@ -53,7 +53,7 @@ class Request {
     }
 
     function param_exists($pos) {
-        if (is_numeric($pos)) {
+        if (is_integer($pos)) {
             return !empty($this->query_parts[$pos]);
         } else {
             return !empty($_POST[$pos]);
@@ -61,7 +61,7 @@ class Request {
     }
 
     function param($pos) {
-        if (is_numeric($pos)) {
+        if (is_integer($pos)) {
             if ($this->param_exists($pos)) {
                 return $this->query_parts[$pos];
             } else {

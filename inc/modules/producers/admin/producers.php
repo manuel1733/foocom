@@ -2,7 +2,7 @@
 
 defined('admin') or die ('no direct access');
 
-include 'db.php';
+include 'inc/modules/producers/admin/db.php';
 
 class Producers extends Controller {
     private $db;

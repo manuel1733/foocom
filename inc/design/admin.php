@@ -12,7 +12,7 @@ class Design {
     <head>
         <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
         <title><?php echo $title; ?></title>
-        <link href="inc/design/style.css" media="all" rel="stylesheet" type="text/css" />
+        <link href="inc/design/admin.css" media="all" rel="stylesheet" type="text/css" />
         <!-- <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
         <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
         <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script> -->

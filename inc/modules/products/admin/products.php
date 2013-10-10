@@ -2,7 +2,7 @@
 
 defined('admin') or die ('no direct access');
 
-include 'db.php';
+include 'inc/modules/products/admin/db.php';
 
 class Products extends Controller {
     protected $db;
