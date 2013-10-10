@@ -15,7 +15,7 @@ class Design {
         header('Content-Type: text/html; charset=utf-8');
 
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!DOCTYPE table PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
     <head>
         <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
@@ -65,19 +65,37 @@ class Design {
 </div>
 
 <div id="right">
-<p class="menutitle">MENU 4</p>
-&raquo; <a class="menu" href="#">HYPERLINK 1</a><br />
-&raquo; <a class="menu" href="#">HYPERLINK 2</a><br />
-&raquo; <a class="menu" href="#">HYPERLINK 3</a><br />
-&raquo; <a class="menu" href="#">HYPERLINK 4</a><br />
-&raquo; <a class="menu" href="#">HYPERLINK 5</a><br />
+<p class="menutitle">Warenkorb (<?= array_sum($_SESSION['customer-basket']) ?>)</p>
 
-<p class="menutitle">MENU 5</p>
-&raquo; <a class="menu" href="#">HYPERLINK 1</a><br />
-&raquo; <a class="menu" href="#">HYPERLINK 2</a><br />
-&raquo; <a class="menu" href="#">HYPERLINK 3</a><br />
-&raquo; <a class="menu" href="#">HYPERLINK 4</a><br />
-&raquo; <a class="menu" href="#">HYPERLINK 5</a><br />
+<?php
+    if (!empty($_SESSION['customer-basket']) && is_array($_SESSION['customer-basket'])) {
+        foreach ($this->db->basket($_SESSION['customer-basket']) as $r):
+        ?>
+
+        <?= $r['name'] ?> <input name="quantity" value="<?= $r['quantity'] ?>" size="2" /> <?= $r['price'] ?>
+
+        <br  />
+
+        <?php
+        endforeach;
+
+        echo '<a href="index.php?customers-checkout">zur Kasse</a>';
+    }
+?>
+
+<br />
+<br />
+<br />
+<br />
+
+<p class="menutitle">Kunde</p>
+
+<?php
+if (!empty($_SESSION['customer'])) {
+     echo 'Hallo ' . $_SESSION['customer']['name'] . '<br>';
+}
+?>
+
 
 <p class="menutitle">MENU 6</p>
 &raquo; <a class="menu" href="#">HYPERLINK 1</a><br />
@@ -88,6 +106,13 @@ class Design {
 </div>
 
 <div id="content">
+
+    <?php
+    if (!empty($_SESSION['state_message'])) {
+        echo '<div style="color: red; font-weight: bold; text-align: center;">' . $_SESSION['state_message'] . '</div>';
+        $_SESSION['state_message'] = null;
+    }
+    ?>
 
  <h2><?= $title; ?></h2>
 
@@ -137,6 +162,7 @@ class Design {
     }
 
     private function clean_name($name) {
-        return iconv('UTF-8', 'us-ascii//IGNORE', $name);
+        $name = preg_replace('/\xc3\xbc/', 'ue', $name);
+        return preg_replace('/[^a-zA-Z-0-9]/', '', $name);
     }
 }

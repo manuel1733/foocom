@@ -26,4 +26,20 @@ class Design_Database extends Database {
         }
         return $rows;
     }
+
+    public function basket(array $basket) {
+        $customer_group_id = 1;
+
+        $rows = array();
+        foreach($basket as $product_id => $quantity) {
+            $row = $this->get($product_id, $customer_group_id);
+            $row['quantity'] = $quantity;
+            $rows[] = $row;
+        }
+        return $rows;
+    }
+
+    private function get($id, $customer_group_id) {
+        return $this->query_for_row("SELECT * FROM products p, product_customer_groups c WHERE p.id = c.product_id AND c.display = 1 AND p.id = ? AND c.customer_group_id = ?", array($id, $customer_group_id));
+    }
 }

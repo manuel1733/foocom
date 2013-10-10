@@ -13,6 +13,8 @@ include 'inc/config.php';
 
 $request = new Request();
 
+include 'inc/modules/customers/session.php';
+
 $module = $request->get_module();
 
 include 'inc/modules/' . $module[1] . '.php';

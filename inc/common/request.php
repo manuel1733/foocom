@@ -89,7 +89,11 @@ class Request {
 
     function populate(array $fields) {
         foreach ($fields as $key => $value) {
-            $fields[$key] = $_POST[$key];
+            if (empty($_POST[$key])) {
+                $fields[$key] = '';
+            } else {
+                $fields[$key] = $_POST[$key];
+            }
         }
         return $fields;
     }
