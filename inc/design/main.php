@@ -2,13 +2,11 @@
 
 defined('main') or die ('no direct access');
 
-include 'inc/design/db.php';
-
 class Design {
-    private $db;
+    private $request;
 
-    public function Design() {
-        $this->db = new Design_Database();
+    public function Design(Request $request) {
+        $this->request = $request;
     }
 
     public function header($title) {
@@ -33,76 +31,18 @@ class Design {
 </div>
 
 <div id="left" style="clear:right;">
-    <p class="menutitle">Produkt Kataloge</p>
-
-    <ul>
     <?php
-
-    $this->display_product_groups($this->db->product_groups());
-
+    $this->display_box(new Products_Groups_Box());
+    $this->display_box(new Products_Allergens_Box());
+    $this->display_box(new Products_Labels_Box());
     ?>
-    </ul>
-
-    <p class="menutitle">Allergene</p>
-
-    <ul>
-    <?php
-
-    $this->display_allergens($this->db->allergens());
-
-    ?>
-    </ul>
-
-    <p class="menutitle">Labels</p>
-
-    <ul>
-    <?php
-
-    $this->display_labels($this->db->labels());
-
-    ?>
-    </ul>
 </div>
 
 <div id="right">
-<p class="menutitle">Warenkorb (<?= array_sum($_SESSION['customer-basket']) ?>)</p>
-
-<?php
-    if (!empty($_SESSION['customer-basket']) && is_array($_SESSION['customer-basket'])) {
-        foreach ($this->db->basket($_SESSION['customer-basket']) as $r):
-        ?>
-
-        <?= $r['name'] ?> <input name="quantity" value="<?= $r['quantity'] ?>" size="2" /> <?= $r['price'] ?>
-
-        <br  />
-
-        <?php
-        endforeach;
-
-        echo '<a href="index.php?customers-checkout">zur Kasse</a>';
-    }
-?>
-
-<br />
-<br />
-<br />
-<br />
-
-<p class="menutitle">Kunde</p>
-
-<?php
-if (!empty($_SESSION['customer'])) {
-     echo 'Hallo ' . $_SESSION['customer']['name'] . '<br>';
-}
-?>
-
-
-<p class="menutitle">MENU 6</p>
-&raquo; <a class="menu" href="#">HYPERLINK 1</a><br />
-&raquo; <a class="menu" href="#">HYPERLINK 2</a><br />
-&raquo; <a class="menu" href="#">HYPERLINK 3</a><br />
-&raquo; <a class="menu" href="#">HYPERLINK 4</a><br />
-&raquo; <a class="menu" href="#">HYPERLINK 5</a><br />
+    <?php
+    $this->display_box(new Customers_Basket_Box());
+    $this->display_box(new Customers_Customers_Box());
+    ?>
 </div>
 
 <div id="content">
@@ -135,34 +75,7 @@ if (!empty($_SESSION['customer'])) {
 <?php
     }
 
-    private function display_product_groups(array $groups) {
-        $length = count($groups);
-        for ($i = 0; $i < $length; $i++) {
-            echo '<li><a href="index.php?products-' . $groups[$i]['id'] . '-groups-' . $this->clean_name($groups[$i]['name']) . '">' . $groups[$i]['name'] . '</a>' . "\n";
-            if (($i + 1) < $length && empty($groups[$i + 1]['name'])) {
-                $i++;
-                echo '<ul>' . "\n";
-                $this->display_product_groups($groups[$i]);
-                echo '</ul>' . "\n";
-            }
-            echo '</li>' . "\n";
-        }
-    }
-
-    private function display_allergens(array $allergens) {
-        foreach ($allergens as $r) {
-            echo '<li><a href="index.php?products-' . $r['id'] . '-allergens-' . $this->clean_name($r['name']) . '">' . $r['name'] . '</a>' . "\n";
-        }
-    }
-
-    private function display_labels(array $labels) {
-        foreach ($labels as $r) {
-            echo '<li><a href="index.php?products-' . $r['id'] . '-labels-' . $this->clean_name($r['name']) . '">' . $r['name'] . '</a>' . "\n";
-        }
-    }
-
-    private function clean_name($name) {
-        $name = preg_replace('/\xc3\xbc/', 'ue', $name);
-        return preg_replace('/[^a-zA-Z-0-9]/', '', $name);
+    private function display_box($box) {
+        $box->display($this->request);
     }
 }

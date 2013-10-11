@@ -1,7 +1,5 @@
 <?php
 
-include 'inc/modules/products/db.php';
-
 class Products extends Controller {
     private $db;
 

@@ -7,7 +7,7 @@ abstract class Database {
 
     public function Database() {
         if (!self::$db) {
-            self::$db = new PDO('mysql:host=localhost;dbname=foocom', 'root', '');
+            self::$db = new PDO('mysql:host=localhost;dbname=' . DBDATE, DBUSER, DBPASS);
             self::$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         }
     }

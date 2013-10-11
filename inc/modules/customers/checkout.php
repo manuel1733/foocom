@@ -1,7 +1,5 @@
 <?php
 
-include 'inc/modules/customers/db.php';
-
 class Customers_Checkout extends Controller {
     private $db;
     private $fields;
@@ -25,7 +23,7 @@ class Customers_Checkout extends Controller {
 
     function handle(Request $request) {
         if (empty($_SESSION['customer'])) {
-            $this->login_or_request($request);
+            $this->login_or_register($request);
         } else {
             if ($request->is_post('customers-checkout')) {
                 $fields = $request->populate(array('delivery' => '', 'payment' => '', 'comment' => '', 'conditions' => ''));
@@ -54,8 +52,7 @@ class Customers_Checkout extends Controller {
         if ($request->is_post('customers-register')) {
             $message = $this->register($request);
         }
-
-        if ($message == 0) {
+        if ($message === 0) {
             return;
         } else {
             $template->set('message', $message);

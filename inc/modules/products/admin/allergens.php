@@ -2,8 +2,6 @@
 
 defined('admin') or die ('no direct access');
 
-include 'inc/modules/products/admin/db.php';
-
 class Products_Allergens extends Controller {
     private $db;
     private $fields;

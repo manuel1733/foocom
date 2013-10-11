@@ -3,6 +3,12 @@
 defined('admin') or die ('no direct access');
 
 class Design {
+    private $request;
+
+    public function Design(Request $request) {
+        $this->request = $request;
+    }
+
     public function header($title, $menu = true) {
         header('Content-Type: text/html; charset=utf-8');
 
@@ -39,6 +45,7 @@ class Design {
 
     <div><a href="admin.php?customers">Kunden</a>
     <br />- <a href="admin.php?customers-groups">Kundengruppen</a>
+    <br />- <a href="admin.php?customers-orders">Bestellungen</a>
     </div>
     <div><a href="admin.php?employees">Mitarbeiter</a></div>
     <div><a href="admin.php?storages">Lager</a></div>

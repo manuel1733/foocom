@@ -22,8 +22,6 @@
 
 defined('admin') or die ('no direct access');
 
-include 'db.php';
-
 class Suppliers_Orders extends Controller {
     private $db;
 

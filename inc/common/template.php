@@ -14,7 +14,7 @@ class Template {
 
     function set($k, $v) {
         $this->is_valid_key($k);
-        $this->keys[$k] = htmlspecialchars($v, ENT_COMPAT | ENT_HTML401, 'UTF-8');
+        $this->keys[$k] = htmlspecialchars($v, ENT_COMPAT, 'UTF-8');
     }
 
     function set_ar($k, array $ar = null) {
@@ -35,7 +35,7 @@ class Template {
                 $ar[$k] = $this->handle_special_chars($v);
             } else {
                 $this->is_valid_key($k);
-                $ar[$k] = htmlspecialchars($v, ENT_COMPAT | ENT_HTML401, 'UTF-8');
+                $ar[$k] = htmlspecialchars($v, ENT_COMPAT, 'UTF-8');
             }
         }
         return $ar;
@@ -47,6 +47,11 @@ class Template {
         }
     }
 
+    private function is_box() {
+        $sub = 'box.view.php';
+        return substr($this->file, strlen($this->file), strlen($sub)) == $sub;
+    }
+
     /**
      * output html. prepare the values and include the view file.
      *
@@ -54,7 +59,10 @@ class Template {
      *
      */
     function display() {
-        $design = new Design();
+        if (!$this->is_box()) {
+            global $request;
+            $design = new Design($request);
+        }
 
         extract($this->keys);
 
@@ -82,10 +90,13 @@ class Template {
     }
 
     protected function insert_csrf_token($name) {
-        if (session_status() == PHP_SESSION_ACTIVE) {
-            $token = md5(mt_rand() . time() . $name);
-            $_SESSION['_csrf_token_' . $name] = $token;
-            echo '<input type="hidden" name="csrf_token" value="' . $token . '" />';
-        }
+        $token = md5(mt_rand() . time() . $name);
+        $_SESSION['_csrf_token_' . $name] = $token;
+        echo '<input type="hidden" name="csrf_token" value="' . $token . '" />';
+    }
+
+    public static function clean_name($name) {
+        $name = preg_replace('/\xc3\xbc/', 'ue', $name);
+        return preg_replace('/[^a-zA-Z-0-9]/', '', $name);
     }
 }

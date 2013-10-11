@@ -2,8 +2,6 @@
 
 defined('admin') or die ('no direct access');
 
-include 'db.php';
-
 class Vouchers extends Controller {
     private $db;
 

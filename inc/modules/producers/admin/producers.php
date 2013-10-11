@@ -2,8 +2,6 @@
 
 defined('admin') or die ('no direct access');
 
-include 'inc/modules/producers/admin/db.php';
-
 class Producers extends Controller {
     private $db;
     private $fields;

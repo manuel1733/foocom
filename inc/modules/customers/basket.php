@@ -1,7 +1,5 @@
 <?php
 
-include 'inc/modules/customers/db.php';
-
 class Customers_Basket extends Controller {
     private $db;
 

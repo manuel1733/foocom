@@ -27,7 +27,7 @@ class Request {
         if (empty($param) || is_numeric($param) || $pos > 5) {
             $admin = defined('admin') ? 'admin/' : '';
             if ($pos == 0) {
-                return array('Startpage', 'startpage/' . $admin . 'startpage');
+                return 'Startpage';
             }
             if ($pos == 1) {
                 $file = str_replace($parents[0] . '.', $parents[0] . '/' . $admin, implode('.', array($parents[0], $parents[0])));
@@ -42,9 +42,9 @@ class Request {
                         return $o . '_' . ucfirst($s);
                     }
                 });
-                return array($classname, $file);
+                return $classname;
             } else {
-                return array('Startpage', 'startpage/' . $admin . 'startpage');
+                return 'Startpage';
             }
         } else {
             $parents[] = $param;
@@ -82,7 +82,6 @@ class Request {
 
     function is_post($name) {
         return $_SERVER['REQUEST_METHOD'] == 'POST'
-            && session_status() == PHP_SESSION_ACTIVE
             && !empty($_SESSION['_csrf_token_' . $name])
             && $this->param('csrf_token') == $_SESSION['_csrf_token_' . $name];
     }

@@ -1,7 +1,5 @@
 <?php
 
-include 'db.php';
-
 class Storages extends Controller {
     private $db;
 

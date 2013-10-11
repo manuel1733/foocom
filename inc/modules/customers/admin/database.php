@@ -31,6 +31,18 @@ class Customers_Database extends Database {
         return $this->query("SELECT * FROM countries");
     }
 
+    // ORDERS
+
+    function orders() {
+        return $this->query("SELECT
+                o.id, o.customer_id, c.name, o.payment_method, o.delivery_method,
+                SUM(p.order_quantity) product_count,
+                SUM(p.order_quantity * p.price) order_volume
+            FROM customer_orders o, customers c, customer_order_products p
+            WHERE c.id = o.customer_id AND p.order_id = o.id
+            GROUP BY o.id, o.customer_id, c.name, o.payment_method, o.delivery_method");
+    }
+
     // GROUPS
 
     function groups_insert(array $fields) {

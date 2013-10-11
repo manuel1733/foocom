@@ -2,8 +2,6 @@
 
 defined('admin') or die ('no direct access');
 
-include 'db.php';
-
 class Customers_Change extends Controller {
     private $db;
     private $fields;

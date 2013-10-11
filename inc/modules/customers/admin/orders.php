@@ -2,16 +2,16 @@
 
 defined('admin') or die ('no direct access');
 
-class Customers extends Controller {
+class Customers_Orders extends Controller {
     private $db;
 
-    function Customers() {
+    function Customers_Orders() {
         $this->db = new Customers_Database();
     }
 
     function handle(Request $request) {
-        $template = new Template('customers', 'customers');
-        $template->set_ar('customers', $this->db->all());
+        $template = new Template('customers', 'orders');
+        $template->set_ar('orders', $this->db->orders());
         $template->display();
     }
 }
