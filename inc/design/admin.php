@@ -18,6 +18,8 @@ class Design {
     <head>
         <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
         <title><?php echo $title; ?></title>
+        <script src="inc/design/jquery-2.0.3.min.js"></script>
+
         <link href="inc/design/admin.css" media="all" rel="stylesheet" type="text/css" />
         <!-- <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
         <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
@@ -47,8 +49,11 @@ class Design {
     <br />- <a href="admin.php?customers-groups">Kundengruppen</a>
     <br />- <a href="admin.php?customers-orders">Bestellungen</a>
     </div>
-    <div><a href="admin.php?employees">Mitarbeiter</a></div>
+    <div><a href="admin.php?employees">Mitarbeiter</a>
+    <br />- <a href="admin.php?employees-roles">Rollen</a>
+    </div>
     <div><a href="admin.php?storages">Lager</a></div>
+    <div><a href="admin.php?changes">&Auml;nderungshistory</a></div>
 
     <div id="user">
    Hallo <?= $_SESSION['auth']['name'] ?> <a href="admin.php?employees-logout">abmelden</a>

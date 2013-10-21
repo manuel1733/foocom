@@ -13,8 +13,18 @@ class Template {
     }
 
     function set($k, $v) {
-        $this->is_valid_key($k);
-        $this->keys[$k] = htmlspecialchars($v, ENT_COMPAT, 'UTF-8');
+        if (is_array($k)) {
+            $ar = $k;
+            foreach($ar as $k => $v) {
+                $this->set($k, $v);
+            }
+        } else if (is_array($v)) {
+            $this->is_valid_key($k);
+            $this->keys[$k] = $this->handle_special_chars($v);
+        } else {
+            $this->is_valid_key($k);
+            $this->keys[$k] = htmlspecialchars($v, ENT_COMPAT, 'UTF-8');
+        }
     }
 
     function set_ar($k, array $ar = null) {
@@ -82,8 +92,8 @@ class Template {
     }
 
     protected function out_checkbox($value) {
-        if ($value == 0) {
-            return '';
+        if (empty($value)) {
+            return ' ';
         } else {
             return ' checked="checked"';
         }

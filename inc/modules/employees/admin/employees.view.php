@@ -19,6 +19,9 @@ $design->header('Mitarbeiter');
         <td><input name="mail" value="<?= $mail ?>" /></td>
     </tr>
     <tr>
+        <td>Rolle</td>
+        <td><select name="role"><?= $this->out_options($roles, $role) ?></select></td>
+    <tr>
         <td></td>
         <td><input type="submit" value="speichern" /></td>
     </tr>
@@ -33,6 +36,7 @@ $design->header('Mitarbeiter');
         <th>#</th>
         <th>Name</th>
         <th>Mail</th>
+        <th>Role</th>
     </tr>
 
     <?php foreach ($employees as $r ) : extract($r); ?>
@@ -43,6 +47,7 @@ $design->header('Mitarbeiter');
         <td><a href="admin.php?employees-<?= $id ?>-password">neues Passwort</a></td>
         <td><?= $name ?></td>
         <td><?= $mail ?></td>
+        <td><?= $role ?></td>
 
     <?php endforeach; ?>
 

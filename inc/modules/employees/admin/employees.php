@@ -9,6 +9,7 @@ class Employees extends Controller {
         $this->fields = array (
             'name' => '',
             'mail' => '',
+            'role' => 'Assistent',
         );
     }
 
@@ -24,7 +25,8 @@ class Employees extends Controller {
             } else {
                 $template->set_ar($this->db->get($employee_id));
             }
-            $template->set_ar('employees', $this->db->all());
+            $template->set('employees', $this->db->all());
+            $template->set('roles', $this->db->roles_all_options());
             $template->display();
         }
     }
