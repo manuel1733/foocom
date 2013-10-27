@@ -104,6 +104,7 @@ class CreateSchema extends Migration {
 
         Schema::create('product_groups', function($table) {
             $table->increments('id');
+            $table->integer('parent_id')->unsigned();
             $table->string('name');
         });
 

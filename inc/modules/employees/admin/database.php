@@ -7,35 +7,35 @@ class Employees_Database extends Database {
     }
 
     public function insert(array $fields) {
-        $this->run("INSERT INTO employees (id, name, mail, password, role) VALUES (null, :name, :mail, :password, :role)", $fields);
+        $this->run("INSERT INTO employees (id, first_name, last_name, mail, password, role_id) VALUES (null, :first_name, :last_name, :mail, :password, :role)", $fields);
     }
 
     public function update(array $fields) {
-        $this->run("UPDATE employees SET name = :name, mail = :mail, role = :role WHERE id = :employee_id", $fields);
+        $this->run("UPDATE employees SET first_name = :first_name, last_name = :last_name, mail = :mail, role_id = :role WHERE id = :employee_id", $fields);
     }
 
     public function get($employee_id) {
         $fields = array('employee_id' => $employee_id);
-        return $this->query_for_row("SELECT id, name, mail, role FROM employees WHERE id = :employee_id", $fields);
+        return $this->query_for_row("SELECT id, first_name, last_name, mail, role_id FROM employees WHERE id = :employee_id", $fields);
     }
 
     public function get_by_mail($mail) {
         $fields = array('mail' => $mail);
-        return $this->query_for_row("SELECT id, name, mail, role FROM employees WHERE mail = :mail", $fields);
+        return $this->query_for_row("SELECT id, first_name, last_name, mail, role_id FROM employees WHERE mail = :mail", $fields);
     }
 
     public function all() {
-        return $this->query("SELECT id, name, mail, role FROM employees");
+        return $this->query("SELECT id, first_name, last_name, mail, role_id FROM employees");
     }
 
     // Roles
 
     public function roles_all() {
-        return $this->query("SELECT DISTINCT role FROM employee_roles ORDER BY role");
+        return $this->query("SELECT name role FROM roles ORDER BY name");
     }
 
     public function roles_all_options() {
-        return $this->query("SELECT DISTINCT role id, role name FROM employee_roles ORDER BY role");
+        return $this->query("SELECT id, name FROM roles ORDER BY name");
     }
 
     public function roles_all_paths() {

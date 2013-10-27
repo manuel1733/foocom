@@ -35,14 +35,14 @@ $design->header('Kunde &auml;ndern');
 	</tr>
 	<tr>
 		<td>Land</td>
-		<td><select name="country"><?= $this->out_options($countries, $country) ?></select></td>
+		<td><select name="country"><?= $this->out_options($countries, $country_id) ?></select></td>
 	</tr>
 	<tr>
 		<th colspan="2">Kontakt</th>
 	</tr>
 	<tr>
 		<td>Telefon</td>
-		<td><input name="tel" value="<?= $tel ?>" /></td>
+		<td><input name="tel" value="<?= $phone ?>" /></td>
 	</tr>
 	<tr>
 		<td>Fax</td>

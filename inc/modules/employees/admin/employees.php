@@ -7,7 +7,8 @@ class Employees extends Controller {
     function Employees() {
         $this->db = new Employees_Database();
         $this->fields = array (
-            'name' => '',
+            'first_name' => '',
+            'last_name' => '',
             'mail' => '',
             'role' => 'Assistent',
         );

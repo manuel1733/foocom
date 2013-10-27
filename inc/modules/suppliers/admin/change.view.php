@@ -42,7 +42,7 @@ $design->header('Lieferant &auml;ndern');
 	</tr>
 	<tr>
 		<td>Telefon</td>
-		<td><input name="tel" value="<?= $tel ?>" /></td>
+		<td><input name="phone" value="<?= $phone ?>" /></td>
 	</tr>
 	<tr>
 		<td>Fax</td>

@@ -11,8 +11,12 @@ $design->header('Mitarbeiter');
 
 <table>
     <tr>
-        <td>Name</td>
-        <td><input name="name" value="<?= $name ?>" /></td>
+        <td>Vorname</td>
+        <td><input name="name" value="<?= $first_name ?>" /></td>
+    </tr>
+    <tr>
+        <td>Nachname</td>
+        <td><input name="name" value="<?= $last_name ?>" /></td>
     </tr>
     <tr>
         <td>Mail</td>
@@ -34,7 +38,8 @@ $design->header('Mitarbeiter');
         <th>#</th>
         <th>#</th>
         <th>#</th>
-        <th>Name</th>
+        <th>Vorname</th>
+        <th>Nachname</th>
         <th>Mail</th>
         <th>Role</th>
     </tr>
@@ -45,7 +50,8 @@ $design->header('Mitarbeiter');
         <td><a href="admin.php?employees-<?= $id ?>-delete">l&ouml;schen</a></td>
         <td><a href="admin.php?employees-<?= $id ?>">&auml;ndern</a></td>
         <td><a href="admin.php?employees-<?= $id ?>-password">neues Passwort</a></td>
-        <td><?= $name ?></td>
+        <td><?= $first_name ?></td>
+        <td><?= $last_name ?></td>
         <td><?= $mail ?></td>
         <td><?= $role ?></td>
 

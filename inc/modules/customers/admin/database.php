@@ -5,13 +5,13 @@ defined('admin') or die ('no direct access');
 class Customers_Database extends Database {
 
     function insert(array $fields) {
-        $this->run("INSERT INTO customers (id, name) VALUES (null, :name)", $fields);
+        $this->run("INSERT INTO customers (id, country_id, customer_group_id, name) VALUES (null, 1, 1, :name)", $fields);
         return $this->insert_id();
     }
 
     function update($id, array $fields) {
         $fields['id'] = $id;
-        $this->run("UPDATE customers SET name = :name, addition = :addition, street = :street, zipcode = :zipcode, city = :city, tel = :tel, fax = :fax, mail = :mail, comment = :comment, country = :country WHERE id = :id", $fields);
+        $this->run("UPDATE customers SET name = :name, addition = :addition, street = :street, zipcode = :zipcode, city = :city, phone = :tel, fax = :fax, mail = :mail, comment = :comment, country_id = :country WHERE id = :id", $fields);
     }
 
     function delete($user_id) {
@@ -39,7 +39,7 @@ class Customers_Database extends Database {
                 SUM(p.order_quantity) product_count,
                 SUM(p.order_quantity * p.price) order_volume
             FROM customer_orders o, customers c, customer_order_products p
-            WHERE c.id = o.customer_id AND p.order_id = o.id
+            WHERE c.id = o.customer_id AND p.customer_order_id = o.id
             GROUP BY o.id, o.customer_id, c.name, o.payment_method, o.delivery_method");
     }
 

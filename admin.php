@@ -9,6 +9,8 @@ set_error_handler("exception_error_handler");
 
 define('admin' , true);
 
+include 'vendor/autoload.php';
+
 include 'inc/config.php';
 include 'inc/common/request.php';
 include 'inc/common/functions.php';

@@ -14,7 +14,7 @@ class Suppliers_Change extends Controller {
             'street' => '',
             'zipcode' => '',
             'city' => '',
-            'tel' => '',
+            'phone' => '',
             'fax' => '',
             'mail' => '',
             'comment' => '',

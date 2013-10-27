@@ -32,7 +32,11 @@ class Design {
 
     <div><a href="admin.php">Start</a></div>
 
-    <div><a href="admin.php?suppliers">Lieferanten</a></div>
+    <div>
+        <a href="admin.php?suppliers">Lieferanten</a>
+        <br />- <a href="admin.php?suppliers-receipt.php">Wareneingang</a>
+
+    </div>
 
     <div>
     <a href="admin.php?products">Produkte</a>

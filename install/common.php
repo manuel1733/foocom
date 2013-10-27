@@ -6,6 +6,7 @@
  * without laravel framework ... apart from this fact has nothing to do with laravel.
  */
 
+include '../vendor/autoload.php';
 include '../inc/config.php';
 
 class Blueprint {

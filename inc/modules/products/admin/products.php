@@ -11,8 +11,12 @@ class Products extends Controller {
 
     public function handle(Request $request) {
         if ($request->is_post('products-create')) {
-            $id = $this->db->insert($request->populate(array('name' => '')));
-            $request->forward('products-change' . $id);
+            $product = new Product;
+            $product->name = $request->param('name');
+            $product->producer_id = 1;
+            $product->save();
+            $id = $product->id;
+            $request->forward('products-change-' . $id);
         } else {
             $template = new Template('products', 'products');
             $template->set_ar('products', $this->db->all());
