@@ -2,10 +2,16 @@
 
 error_reporting(E_ALL | E_STRICT);
 
+function exception_error_handler($errno, $errstr, $errfile, $errline ) {
+    throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
+}
+set_error_handler("exception_error_handler");
+
 define('admin' , true);
 
 include 'inc/config.php';
 include 'inc/common/request.php';
+include 'inc/common/functions.php';
 include 'inc/common/database.php';
 include 'inc/common/template.php';
 include 'inc/common/controller.php';

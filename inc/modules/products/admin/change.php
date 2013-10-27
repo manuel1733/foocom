@@ -103,25 +103,8 @@ class Products_Change extends Controller {
 
     private function handle_image($id) {
         if (!empty($_FILES['image']['type']) && $_FILES['image']['type'] == 'image/jpeg') {
-            $sour­cePath = 'images/'; // Path of orig­i­nal image
-            $sourceUrl = 'http://domain.com/images/';
-            $source­Name = 'test.jpg'; // Name of orig­i­nal image
-            $thumb­Path = $sour­cePath . 'thumbs/'; // Write­able thumb path
-            $thum­bUrl = $sourceUrl . 'thumbs/';
-            $thumb­Name = "test_thumb.jpg"; // Tip: Name dynam­i­cally
-            $thumb­Width = 60; // Intended dimen­sion of thumb
-
-            // Beyond this point is sim­ply code.
-            $sour­ceIm­age = image­cre­ate­fromjpeg($_FILES['image']['tmp_name']);
-            $sourceWidth = imagesx($sour­ceIm­age);
-            $source­Height = imagesy($sour­ceIm­age);
-
-            $tar­ge­tIm­age = image­cre­ate($thumbWidth,$thumbWidth);
-            image­copy­re­sized($targetImage,$sourceImage,0,0,0,0,$thumbWidth,
-                $thumbWidth,imagesx($sourceImage),imagesy($sourceImage));
-            image­jpeg($tar­ge­tIm­age, 'inc/modules/products/images/' . $id . '.jpeg');
+            resize_image($_FILES['image']['tmp_name'], 'inc/modules/products/images/' . $id . '.jpeg', 500);
+            resize_image($_FILES['image']['tmp_name'], 'inc/modules/products/images/' . $id . '.min.jpeg', 150);
         }
-
-        // move_uploaded_file($_FILES['image']['tmp_name'], 'inc/modules/products/images/' . $id . '.' . $suffix);
     }
 }
