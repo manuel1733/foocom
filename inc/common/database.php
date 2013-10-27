@@ -3,7 +3,7 @@
 (defined('main') || defined('admin')) or die ('no direct access');
 
 abstract class Database {
-    protected static $db = false;
+    private static $db = false;
 
     public function Database() {
         if (!self::$db) {
