@@ -103,8 +103,8 @@ class Products_Change extends Controller {
 
     private function handle_image($id) {
         if (!empty($_FILES['image']['type']) && $_FILES['image']['type'] == 'image/jpeg') {
-            resize_image($_FILES['image']['tmp_name'], 'inc/modules/products/images/' . $id . '.jpeg', 500);
-            resize_image($_FILES['image']['tmp_name'], 'inc/modules/products/images/' . $id . '.min.jpeg', 150);
+            resize_image($_FILES['image']['tmp_name'], '../inc/modules/products/images/' . $id . '.jpeg', 500);
+            resize_image($_FILES['image']['tmp_name'], '../inc/modules/products/images/' . $id . '.min.jpeg', 150);
         }
     }
 }
