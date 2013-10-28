@@ -12,11 +12,11 @@ $design->header('Mitarbeiter');
 <table>
     <tr>
         <td>Vorname</td>
-        <td><input name="name" value="<?= $first_name ?>" /></td>
+        <td><input name="first_name" value="<?= $first_name ?>" /></td>
     </tr>
     <tr>
         <td>Nachname</td>
-        <td><input name="name" value="<?= $last_name ?>" /></td>
+        <td><input name="last_name" value="<?= $last_name ?>" /></td>
     </tr>
     <tr>
         <td>Mail</td>
@@ -24,7 +24,7 @@ $design->header('Mitarbeiter');
     </tr>
     <tr>
         <td>Rolle</td>
-        <td><select name="role"><?= $this->out_options($roles, $role_id) ?></select></td>
+        <td><select name="role_id"><?= $this->out_options($roles, $role_id) ?></select></td>
     <tr>
         <td></td>
         <td><input type="submit" value="speichern" /></td>

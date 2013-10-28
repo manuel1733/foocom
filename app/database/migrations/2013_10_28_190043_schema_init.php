@@ -1,36 +1,39 @@
 <?php
 
-class CreateSchema extends Migration {
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
-    public function up()
-    {
-        Schema::create('allergens', function($table) {
+class SchemaInit extends Migration {
+
+	/**
+	 * Run the migrations.
+	 *
+	 * @return void
+	 */
+	public function up()
+	{
+        Schema::create('allergens', function(Blueprint $table) {
             $table->increments('id');
             $table->string('name');
             $table->timestamps();
         });
 
-        Schema::create('countries', function($table) {
+        Schema::create('countries', function(Blueprint $table) {
             $table->increments('id');
             $table->string('name');
         });
 
-        Schema::create('roles', function($table) {
+        Schema::create('roles', function(Blueprint $table) {
             $table->increments('id');
             $table->string('name');
         });
 
-        Schema::create('permissions', function($table) {
+        Schema::create('permissions', function(Blueprint $table) {
             $table->increments('id');
             $table->string('name');
         });
 
-        Schema::create('role_permissions', function($table) {
+        Schema::create('role_permissions', function(Blueprint $table) {
             $table->integer('role_id')->unsigned();
             $table->integer('permission_id')->unsigned();
             $table->primary(array('role_id', 'permission_id'));
@@ -38,7 +41,7 @@ class CreateSchema extends Migration {
             $table->foreign('permission_id')->references('id')->on('permissions');
         });
 
-        Schema::create('employees', function($table) {
+        Schema::create('employees', function(Blueprint $table) {
             $table->increments('id');
             $table->string('first_name');
             $table->string('last_name');
@@ -46,26 +49,27 @@ class CreateSchema extends Migration {
             $table->string('mail');
             $table->string('password');
             $table->foreign('role_id')->references('id')->on('roles');
+            $table->timestamps();
         });
 
-        Schema::create('changes', function($table) {
+        Schema::create('changes', function(Blueprint $table) {
             $table->dateTime('time');
             $table->integer('employee_id')->unsigned();
             $table->text('message');
             $table->foreign('employee_id')->references('id')->on('employees');
         });
 
-        Schema::create('labels', function($table) {
+        Schema::create('labels', function(Blueprint $table) {
             $table->increments('id');
             $table->string('name');
         });
 
-        Schema::create('producers', function($table) {
+        Schema::create('producers', function(Blueprint $table) {
             $table->increments('id');
             $table->string('name');
         });
 
-        Schema::create('products', function($table) {
+        Schema::create('products', function(Blueprint $table) {
             $table->increments('id');
             $table->string('ean');
             $table->string('name');
@@ -78,7 +82,7 @@ class CreateSchema extends Migration {
             $table->foreign('producer_id')->references('id')->on('producers');
         });
 
-        Schema::create('product_allergens', function($table) {
+        Schema::create('product_allergens', function(Blueprint $table) {
             $table->integer('product_id')->unsigned();
             $table->integer('allergen_id')->unsigned();
             $table->primary(array('product_id', 'allergen_id'));
@@ -86,13 +90,13 @@ class CreateSchema extends Migration {
             $table->foreign('allergen_id')->references('id')->on('allergens');
         });
 
-        Schema::create('customer_groups', function($table) {
+        Schema::create('customer_groups', function(Blueprint $table) {
             $table->increments('id');
             $table->string('name');
             $table->integer('discount')->unsigned();
         });
 
-        Schema::create('product_customer_groups', function($table) {
+        Schema::create('product_customer_groups', function(Blueprint $table) {
             $table->integer('product_id')->unsigned();
             $table->integer('customer_group_id')->unsigned();
             $table->integer('price');
@@ -102,13 +106,13 @@ class CreateSchema extends Migration {
             $table->foreign('customer_group_id')->references('id')->on('customer_groups');
         });
 
-        Schema::create('product_groups', function($table) {
+        Schema::create('product_groups', function(Blueprint $table) {
             $table->increments('id');
             $table->integer('parent_id')->unsigned();
             $table->string('name');
         });
 
-        Schema::create('product_labels', function($table) {
+        Schema::create('product_labels', function(Blueprint $table) {
             $table->integer('product_id')->unsigned();
             $table->integer('label_id')->unsigned();
             $table->primary(array('product_id', 'label_id'));
@@ -116,7 +120,7 @@ class CreateSchema extends Migration {
             $table->foreign('label_id')->references('id')->on('labels');
         });
 
-        Schema::create('product_product_groups', function($table) {
+        Schema::create('product_product_groups', function(Blueprint $table) {
             $table->integer('product_id')->unsigned();
             $table->integer('product_group_id')->unsigned();
             $table->primary(array('product_id', 'product_group_id'));
@@ -124,7 +128,7 @@ class CreateSchema extends Migration {
             $table->foreign('product_group_id')->references('id')->on('product_groups');
         });
 
-        Schema::create('customers', function($table) {
+        Schema::create('customers', function(Blueprint $table) {
             $table->increments('id');
             $table->string('name');
             $table->string('addition');
@@ -141,7 +145,7 @@ class CreateSchema extends Migration {
             $table->foreign('customer_group_id')->references('id')->on('customer_groups');
         });
 
-        Schema::create('customer_orders', function($table) {
+        Schema::create('customer_orders', function(Blueprint $table) {
             $table->increments('id');
             $table->integer('customer_id')->unsigned();
             $table->string('payment_method');
@@ -150,7 +154,7 @@ class CreateSchema extends Migration {
             $table->foreign('customer_id')->references('id')->on('customers');
         });
 
-        Schema::create('customer_order_products', function($table) {
+        Schema::create('customer_order_products', function(Blueprint $table) {
             $table->integer('customer_order_id')->unsigned();
             $table->integer('product_id')->unsigned();
             $table->integer('order_quantity')->unsigned();
@@ -161,7 +165,7 @@ class CreateSchema extends Migration {
             $table->foreign('product_id')->references('id')->on('products');
         });
 
-        Schema::create('suppliers', function($table) {
+        Schema::create('suppliers', function(Blueprint $table) {
             $table->increments('id');
             $table->string('name');
             $table->string('addition');
@@ -175,14 +179,14 @@ class CreateSchema extends Migration {
             $table->string('comment');
         });
 
-        Schema::create('supplier_orders', function($table) {
+        Schema::create('supplier_orders', function(Blueprint $table) {
             $table->increments('id');
             $table->integer('supplier_id')->unsigned();
             $table->integer('state');
             $table->foreign('supplier_id')->references('id')->on('suppliers');
         });
 
-        Schema::create('supplier_order_products', function($table) {
+        Schema::create('supplier_order_products', function(Blueprint $table) {
             $table->integer('supplier_order_id')->unsigned();
             $table->integer('product_id')->unsigned();
             $table->integer('order_quantity')->unsigned();
@@ -192,7 +196,7 @@ class CreateSchema extends Migration {
             $table->foreign('product_id')->references('id')->on('products');
         });
 
-        Schema::create('product_suppliers', function($table) {
+        Schema::create('product_suppliers', function(Blueprint $table) {
             $table->integer('product_id')->unsigned();
             $table->integer('supplier_id')->unsigned();
             $table->string('product_number');
@@ -203,7 +207,7 @@ class CreateSchema extends Migration {
             $table->foreign('supplier_id')->references('id')->on('suppliers');
         });
 
-        Schema::create('batches', function($table) {
+        Schema::create('batches', function(Blueprint $table) {
             $table->increments('id');
             $table->integer('supplier_order_id')->unsigned();
             $table->integer('product_id')->unsigned();
@@ -214,34 +218,34 @@ class CreateSchema extends Migration {
             $table->foreign('product_id')->references('id')->on('products');
         });
 
-        Schema::create('storages', function($table) {
+        Schema::create('storages', function(Blueprint $table) {
             $table->increments('id');
             $table->string('name');
         });
 
-        Schema::create('storage_yards', function($table) {
+        Schema::create('storage_yards', function(Blueprint $table) {
             $table->increments('id');
             $table->integer('storage_id')->unsigned();
             $table->string('number');
             $table->foreign('storage_id')->references('id')->on('storages');
         });
 
-        Schema::create('storage_yard_batches', function($table) {
+        Schema::create('storage_yard_batches', function(Blueprint $table) {
             $table->integer('storage_yard_id')->unsigned();
             $table->integer('batch_id')->unsigned();
             $table->primary(array('storage_yard_id', 'batch_id'));
             $table->foreign('storage_yard_id')->references('id')->on('storage_yards');
             $table->foreign('batch_id')->references('id')->on('batches');
         });
-    }
+	}
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
+	/**
+	 * Reverse the migrations.
+	 *
+	 * @return void
+	 */
+	public function down()
+	{
         Schema::dropIfExists('changes');
 
         Schema::dropIfExists('employees');
@@ -295,5 +299,5 @@ class CreateSchema extends Migration {
         Schema::dropIfExists('products');
 
         Schema::dropIfExists('producers');
-    }
+	}
 }

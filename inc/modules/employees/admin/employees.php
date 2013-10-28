@@ -22,10 +22,10 @@ class Employees extends Controller {
                 $template->set('id', 0);
                 $template->set_ar($this->fields);
             } else {
-                $template->set_ar($this->db->get($employee_id));
+                $template->set_ar(Employee::find($employee_id)->toArray());
             }
             $template->set('employees', Employee::with('role')->get()->toArray());
-            $template->set('roles', $this->db->roles_all_options());
+            $template->set('roles', Role::all()->toArray());
             $template->display();
         }
     }

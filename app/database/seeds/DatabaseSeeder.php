@@ -11,7 +11,10 @@ class DatabaseSeeder extends Seeder {
 	{
 		Eloquent::unguard();
 
-		// $this->call('UserTableSeeder');
+	    $this->call('CreateSchemaSeed');
+
+	    // private seed update user ...
+	    $this->call('CreateChemaSeed');
 	}
 
 }
