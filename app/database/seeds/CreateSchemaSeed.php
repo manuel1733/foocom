@@ -46,6 +46,15 @@ class CreateSchemaSeed extends Seeder {
         DB::insert("INSERT INTO roles (name) VALUES ('Leiter')");
         DB::insert("INSERT INTO roles (name) VALUES ('Assistent')");
 
+        DB::insert("INSERT INTO countries (name) VALUES ('Switzerland')");
+        DB::insert("INSERT INTO countries (name) VALUES ('Austria')");
+        DB::insert("INSERT INTO countries (name) VALUES ('Germany')");
+
+        DB::insert("INSERT INTO customer_groups (name, discount) VALUES ('Kunden', 0)");
+        DB::insert("INSERT INTO customer_groups (name, discount) VALUES ('Genossenschaftler', 10)");
+        DB::insert("INSERT INTO customer_groups (name, discount) VALUES ('Freunde', 20)");
+
         DB::insert("INSERT INTO employees (mail, password, role_id) VALUES ('admin@test.de', '" . hash('sha512', 'test') . "', 1)");
+        DB::insert("INSERT INTO customers (mail, password, country_id, customer_group_id) VALUES ('admin@test.de', '" . hash('sha512', 'test') . "', 1, 1)");
     }
 }

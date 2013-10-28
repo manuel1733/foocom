@@ -20,11 +20,11 @@ class Customers_Database extends Database {
 
     function order_insert(array $fields, array $basket) {
         $fields['customer_id'] = $_SESSION['customer']['id'];
-        $this->run("INSERT INTO customer_orders (id, customer_id, payment_method, delivery_method, customer_comment) VALUES (null, :customer_id, :payment, :delivery, :comment)", $fields);
+        $this->run("INSERT INTO customer_orders (id, customer_id, payment_method, delivery_method, comment) VALUES (null, :customer_id, :payment, :delivery, :comment)", $fields);
         $order_id = $this->insert_id();
         foreach ($basket as $product_id => $order_quantity) {
             $fields = array($order_id, $product_id, $order_quantity, '0');
-            $this->run("INSERT INTO customer_order_products (order_id, product_id, order_quantity, price) VALUES (?, ?, ?, ?)", $fields);
+            $this->run("INSERT INTO customer_order_products (customer_order_id, product_id, order_quantity, price) VALUES (?, ?, ?, ?)", $fields);
         }
     }
 

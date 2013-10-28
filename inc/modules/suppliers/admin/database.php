@@ -139,7 +139,7 @@ class Suppliers_Database extends Database {
 
     function batches($order_id, $product_id) {
         $fields = array('order_id' => $order_id, 'product_id' => $product_id);
-        return $this->query("SELECT b.id ib, b.*, y.* FROM batches b, storage_yard_batches y WHERE b.id = y.batch_id AND order_id = :order_id AND product_id = :product_id", $fields);
+        return $this->query("SELECT b.id ib, b.*, y.* FROM batches b, storage_yard_batches y WHERE b.id = y.batch_id AND supplier_order_id = :order_id AND product_id = :product_id", $fields);
     }
 
     function batch_delete($batch_id) {

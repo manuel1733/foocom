@@ -140,6 +140,7 @@ class SchemaInit extends Migration {
             $table->string('phone');
             $table->string('fax');
             $table->string('mail');
+            $table->string('password');
             $table->text('comment');
             $table->foreign('country_id')->references('id')->on('countries');
             $table->foreign('customer_group_id')->references('id')->on('customer_groups');

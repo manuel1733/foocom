@@ -3,7 +3,7 @@
 class Customers_Checkout_Done extends Controller {
 
     function handle(ORequest $request) {
-        $template = new Template('cusotmers', 'checkout.done');
+        $template = new Template('customers', 'checkout.done');
         $template->display();
     }
 }

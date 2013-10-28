@@ -12,7 +12,7 @@ class Storages_Database extends Database {
 
     function insert_yard($store_id, $number) {
         $fields = array('store_id' => $store_id, 'number' => $number);
-        $this->run("INSERT INTO storage_yards (id, store_id, number) VALUES (null, :store_id, :number)", $fields);
+        $this->run("INSERT INTO storage_yards (id, storage_id, number) VALUES (null, :store_id, :number)", $fields);
     }
 
     function update_yard($id, $number) {

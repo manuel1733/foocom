@@ -39,5 +39,6 @@ class Storages extends Controller {
                 }
             }
         }
+        $request->forward('storages');
     }
 }
