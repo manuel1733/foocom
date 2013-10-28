@@ -11,7 +11,7 @@ class Suppliers_Orders_Pdf extends Controller {
         $this->db = new Suppliers_Database();
     }
 
-    function handle(Request $request) {
+    function handle(ORequest $request) {
         $id = $request->param_as_number(3);
         $supplier_id = $this->db->order_supplier($id);
         $data = array();

@@ -9,7 +9,7 @@ class Suppliers_Orders_Close extends Controller {
         $this->db = new Suppliers_Database();
     }
 
-    function handle(Request $request) {
+    function handle(ORequest $request) {
         $id = $request->param_as_number(3);
         if ($request->is_post('suppliers-orders-close')) {
             $supplier_id = $this->db->order_state($id, 1);

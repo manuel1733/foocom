@@ -1,20 +1,18 @@
 <?php
 
 class Employees extends Controller {
-    private $db;
     private $fields;
 
     function Employees() {
-        $this->db = new Employees_Database();
         $this->fields = array (
             'first_name' => '',
             'last_name' => '',
             'mail' => '',
-            'role' => 'Assistent',
+            'role_id' => 'Assistent',
         );
     }
 
-    function handle(Request $request) {
+    function handle(ORequest $request) {
         if ($request->is_post('employees')) {
             $this->handle_formular_submit($request);
         } else {
@@ -26,24 +24,26 @@ class Employees extends Controller {
             } else {
                 $template->set_ar($this->db->get($employee_id));
             }
-            $template->set('employees', $this->db->all());
+            $template->set('employees', Employee::with('role')->get()->toArray());
             $template->set('roles', $this->db->roles_all_options());
             $template->display();
         }
     }
 
-    private function handle_formular_submit(Request $request) {
-        $employee_id = $request->param(1);
-        if ($employee_id == 0) {
+    private function handle_formular_submit(ORequest $request) {
+        $id = $request->param(1);
+
+        $employee = null;
+        $fields = $request->populate($this->fields);
+
+        if ($id == 0) {
             $password = uniqid();
-            $fields = $request->populate($this->fields);
-            $fields['password'] = hash('sha512', $password);
-            $this->db->insert($fields);
+            $employee = Employee::create($fields);
+            $employee->password = hash('sha512', $password);
+            $employee->save();
             $request->forward('employees', 'Mitarbeiter erfolgreich erstellt mit Password: ' . $password);
         } else {
-            $fields = $request->populate($this->fields);
-            $fields['employee_id'] = $employee_id;
-            $this->db->update($fields);
+            Employee::find($id)->update($fields);
             $request->forward('employees', 'Mitarbeiter erfolgreich geaendert.');
         }
     }

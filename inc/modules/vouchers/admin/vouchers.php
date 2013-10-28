@@ -9,7 +9,7 @@ class Vouchers extends Controller {
         $this->db = new Vouchers_Database();
     }
 
-    function handle(Request $request) {
+    function handle(ORequest $request) {
         $template = new Template('vouchers', 'vouchers');
         $template->display();
     }

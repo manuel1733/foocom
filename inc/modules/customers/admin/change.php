@@ -22,7 +22,7 @@ class Customers_Change extends Controller {
         );
     }
 
-    function handle(Request $request) {
+    function handle(ORequest $request) {
         $id = $request->param_as_number(2);
         if ($request->is_post('customers-change')) {
             $this->db->update($id, $request->populate($this->fields));

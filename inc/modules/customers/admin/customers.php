@@ -9,7 +9,7 @@ class Customers extends Controller {
         $this->db = new Customers_Database();
     }
 
-    function handle(Request $request) {
+    function handle(ORequest $request) {
         $template = new Template('customers', 'customers');
         $template->set_ar('customers', $this->db->all());
         $template->display();

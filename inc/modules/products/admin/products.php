@@ -9,7 +9,7 @@ class Products extends Controller {
         $this->db = new Products_Database();
     }
 
-    public function handle(Request $request) {
+    public function handle(ORequest $request) {
         if ($request->is_post('products-create')) {
             $product = new Product;
             $product->name = $request->param('name');

@@ -3,7 +3,7 @@
 defined('admin') or die ('no direct access');
 
 class Producers extends Controller {
-    function handle(Request $request) {
+    function handle(ORequest $request) {
         $id = $request->param_as_number(1);
 
         if ($request->is_post('producers')) {

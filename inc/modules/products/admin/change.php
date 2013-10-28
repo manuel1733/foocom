@@ -20,7 +20,7 @@ class Products_Change extends Controller {
         );
     }
 
-    public function handle(Request $request) {
+    public function handle(ORequest $request) {
         if ($request->is_post('products-change')) {
             $this->handle_formular_submit($request);
         } else {
@@ -28,7 +28,7 @@ class Products_Change extends Controller {
         }
     }
 
-    private function handle_formular_show(Request $request) {
+    private function handle_formular_show(ORequest $request) {
         $id = $request->param(2);
         $template = new Template('products', 'change');
         $template->set('id', $id);
@@ -43,7 +43,7 @@ class Products_Change extends Controller {
         $template->display();
     }
 
-    private function handle_formular_submit(Request $request) {
+    private function handle_formular_submit(ORequest $request) {
         $id = $request->param(2);
 
         $this->db->update($id, $request->populate($this->fields));
@@ -86,7 +86,7 @@ class Products_Change extends Controller {
         $request->forward('products-change-' . $id);
     }
 
-    private function handle_select(Request $request, $iterator, $id, $name) {
+    private function handle_select(ORequest $request, $iterator, $id, $name) {
         if ($request->param_exists($name)) {
             foreach($iterator as $row) {
                 $is_selected = in_array($row['id'], $request->param($name));

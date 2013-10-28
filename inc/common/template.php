@@ -3,12 +3,14 @@
 (defined('main') || defined('admin')) or die ('no direct access');
 
 class Template {
+    public static $request;
+
     private $file;
     private $keys;
 
     function Template($module, $file) {
         $admin = defined('admin') ? 'admin/' : '';
-        $this->file = 'inc/modules/' . $module . '/' . $admin . $file . '.view.php';
+        $this->file = '../inc/modules/' . $module . '/' . $admin . $file . '.view.php';
         $this->keys  = array();
     }
 
@@ -70,8 +72,7 @@ class Template {
      */
     function display() {
         if (!$this->is_box()) {
-            global $request;
-            $design = new Design($request);
+            $design = new Design(self::$request);
         }
 
         extract($this->keys);

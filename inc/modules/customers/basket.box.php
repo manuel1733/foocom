@@ -8,7 +8,7 @@ class Customers_Basket_Box {
         $this->db = new Customers_Database();
     }
 
-    public function display(Request $request) {
+    public function display(ORequest $request) {
         if ($request->is_post('customers_basket_box')) {
             $basket = $request->param('quantity');
             if (is_array($basket)) {

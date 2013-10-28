@@ -10,10 +10,10 @@ function Autoload($classname) {
     $admin = defined('admin') ? 'admin/' : '';
 
     if (count($ar) == 1) {
-        include 'inc/modules/' . $ar[0] . '/' . $admin . $ar[0] . '.php';
+        include '../inc/modules/' . $ar[0] . '/' . $admin . $ar[0] . '.php';
     } else {
         $str = implode('.', $ar);
-        include 'inc/modules/' . $ar[0] . '/' . $admin . substr($str, strlen($ar[0]) + 1) . '.php';
+        include '../inc/modules/' . $ar[0] . '/' . $admin . substr($str, strlen($ar[0]) + 1) . '.php';
     }
 }
 

@@ -7,7 +7,7 @@ class Employees_Login extends Controller {
         $this->db = new Employees_Database();
     }
 
-    public function handle(Request $request) {
+    public function handle(ORequest $request) {
         if ($request->is_post('employees-login')) {
             $this->handle_formular_submit($request);
         } else {
@@ -16,7 +16,7 @@ class Employees_Login extends Controller {
         }
     }
 
-    private function handle_formular_submit(Request $request) {
+    private function handle_formular_submit(ORequest $request) {
         $fields = $request->populate(array ('mail' => '', 'password' => '' ));
         $fields['password'] = hash('sha512', $fields['password']);
         if ($this->db->is_valid($fields) == 1) {

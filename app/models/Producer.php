@@ -1,5 +1,5 @@
 <?php
 
-class Producer extends Illuminate\Database\Eloquent\Model {
+class Producer extends Eloquent {
     public $timestamps = false;
 }

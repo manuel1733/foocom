@@ -1,9 +1,7 @@
 <?php
 
-session_start();
-
 if (empty($_SESSION['auth'])) {
-    $request->rest('employees-login');
+    $orequest->rest('employees-login');
 }
 
 class Change extends Database{

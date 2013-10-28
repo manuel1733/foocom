@@ -8,7 +8,7 @@ class Changes extends Controller {
         $this->db = new Changes_Database();
     }
 
-    function handle(Request $request) {
+    function handle(ORequest $request) {
         $template = new Template('changes', 'changes');
         $template->set('changes', $this->db->last());
         $template->display();

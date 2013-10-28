@@ -1,5 +1,5 @@
 <?php
 
-class Product extends Illuminate\Database\Eloquent\Model {
+class Product extends Eloquent {
     public $timestamps = false;
 }

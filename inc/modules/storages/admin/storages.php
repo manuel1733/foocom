@@ -7,7 +7,7 @@ class Storages extends Controller {
         $this->db = new Storages_Database();
     }
 
-    function handle(Request $request) {
+    function handle(ORequest $request) {
         if ($request->is_post('storages')) {
             $this->handle_formular_submit($request);
         } else {
@@ -17,7 +17,7 @@ class Storages extends Controller {
         }
     }
 
-    private function handle_formular_submit(Request $request) {
+    private function handle_formular_submit(ORequest $request) {
         if ($request->param_exists('new_name')) {
             $this->db->insert($request->populate(array('new_name' => '')));
         }

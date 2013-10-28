@@ -9,7 +9,7 @@ class Customers_Create extends Controller {
         $this->db = new Customers_Database();
     }
 
-    function handle(Request $request) {
+    function handle(ORequest $request) {
         if ($request->is_post('customers-create')) {
             $id = $this->db->insert($request->populate(array('name' => '')));
             $request->forward('customers-change-' . $id);

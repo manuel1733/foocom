@@ -9,7 +9,7 @@ class Suppliers_Create extends Controller {
         $this->db = new Suppliers_Database();
     }
 
-    function handle(Request $request) {
+    function handle(ORequest $request) {
         if ($request->is_post('suppliers-create')) {
             $id = $this->db->insert($request->populate(array('name' => '')));
             $request->forward('suppliers-change-' . $id);

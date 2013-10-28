@@ -13,7 +13,7 @@ class Products_Allergens extends Controller {
         );
     }
 
-    function handle(Request $request) {
+    function handle(ORequest $request) {
         $id = $request->param_as_number(2);
 
         if ($request->is_post('products-allergens')) {

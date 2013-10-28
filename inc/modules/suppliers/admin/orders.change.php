@@ -9,7 +9,7 @@ class Suppliers_Orders_Change extends Controller {
         $this->db = new Suppliers_Database();
     }
 
-    function handle(Request $request) {
+    function handle(ORequest $request) {
         if ($request->is_post('supplier-order-change')) {
             $this->handle_formular_submit($request);
         } else {
@@ -17,7 +17,7 @@ class Suppliers_Orders_Change extends Controller {
         }
     }
 
-    private function handle_formular_show(Request $request) {
+    private function handle_formular_show(ORequest $request) {
         $id = $request->param_as_number(3);
         $template = new Template('suppliers', 'orders.change');
         if (0 == $this->db->order_product_count($id)) {
@@ -32,7 +32,7 @@ class Suppliers_Orders_Change extends Controller {
         $template->display();
     }
 
-    private function handle_formular_submit(Request $request) {
+    private function handle_formular_submit(ORequest $request) {
         $order_quantities = $request->param('order_quantity');
         if (empty($order_quantities) || !is_array($order_quantities)) {
             return;

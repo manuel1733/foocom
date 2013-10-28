@@ -24,7 +24,7 @@ $design->header('Mitarbeiter');
     </tr>
     <tr>
         <td>Rolle</td>
-        <td><select name="role"><?= $this->out_options($roles, $role) ?></select></td>
+        <td><select name="role"><?= $this->out_options($roles, $role_id) ?></select></td>
     <tr>
         <td></td>
         <td><input type="submit" value="speichern" /></td>
@@ -53,7 +53,7 @@ $design->header('Mitarbeiter');
         <td><?= $first_name ?></td>
         <td><?= $last_name ?></td>
         <td><?= $mail ?></td>
-        <td><?= $role ?></td>
+        <td><?= $role['name'] ?></td>
 
     <?php endforeach; ?>
 

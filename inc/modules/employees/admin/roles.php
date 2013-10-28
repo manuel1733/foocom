@@ -7,7 +7,7 @@ class Employees_Roles extends Controller {
         $this->db = new Employees_Database();
     }
 
-    function handle(Request $request) {
+    function handle(ORequest $request) {
         if ($request->is_post('employees-roles')) {
             $r = $request->param('r');
             foreach ($this->db->roles_all_paths() as $a) {

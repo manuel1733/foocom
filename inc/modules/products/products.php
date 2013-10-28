@@ -7,7 +7,7 @@ class Products extends Controller {
         $this->db = new Products_Database();
     }
 
-    function handle(Request $request) {
+    function handle(ORequest $request) {
         $id = $request->param_as_number(1);
 
         $template = new Template('products', 'products');

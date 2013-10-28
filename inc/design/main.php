@@ -5,7 +5,7 @@ defined('main') or die ('no direct access');
 class Design {
     private $request;
 
-    public function Design(Request $request) {
+    public function Design(ORequest $request) {
         $this->request = $request;
     }
 

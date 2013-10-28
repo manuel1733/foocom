@@ -9,7 +9,7 @@ class Suppliers_Orders_Receipt extends Controller {
         $this->db = new Suppliers_Database();
     }
 
-    function handle(Request $request) {
+    function handle(ORequest $request) {
 
         if ($request->is_post('supplier-order-receipt')) {
             $this->handle_formular_submit($request);
@@ -18,7 +18,7 @@ class Suppliers_Orders_Receipt extends Controller {
         }
     }
 
-    private function handle_formular_show(Request $request) {
+    private function handle_formular_show(ORequest $request) {
         $id = $request->param_as_number(3);
         $template = new Template('suppliers', 'orders.receipt');
         $template->set('id', $id);
@@ -39,7 +39,7 @@ class Suppliers_Orders_Receipt extends Controller {
         $template->display();
     }
 
-    private function handle_formular_submit(Request $request) {
+    private function handle_formular_submit(ORequest $request) {
         $id = $request->param_as_number(3);
         $order_quantities = $request->param('order_quantity');
         $storage_yards = $request->param('storage_yard');

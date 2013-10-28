@@ -9,7 +9,7 @@ class Suppliers extends Controller {
         $this->db = new Suppliers_Database();
     }
 
-    function handle(Request $request) {
+    function handle(ORequest $request) {
         $template = new Template('suppliers', 'suppliers');
         $template->set_ar('suppliers', $this->db->all());
         $template->display();

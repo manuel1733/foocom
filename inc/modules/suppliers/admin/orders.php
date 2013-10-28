@@ -29,7 +29,7 @@ class Suppliers_Orders extends Controller {
         $this->db = new Suppliers_Database();
     }
 
-    function handle(Request $request) {
+    function handle(ORequest $request) {
         $supplier_id = $request->param_as_number(2);
         if ($request->is_post('supplier-order-create')) {
             $order_id = $this->db->create_order($supplier_id);

@@ -7,7 +7,7 @@ class Customers_Basket extends Controller {
         $this->db = new Customers_Database();
     }
 
-    function handle(Request $request) {
+    function handle(ORequest $request) {
         if ($request->is_post('product-add-to-basket')) {
 
             $id = $request->param_as_number('id');

@@ -14,7 +14,7 @@ class Customers_Groups extends Controller {
         );
     }
 
-    function handle(Request $request) {
+    function handle(ORequest $request) {
         $id = $request->param_as_number(2);
 
         if ($request->is_post('customers-groups')) {

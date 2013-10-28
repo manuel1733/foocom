@@ -21,7 +21,7 @@ class Customers_Checkout extends Controller {
         );
     }
 
-    function handle(Request $request) {
+    function handle(ORequest $request) {
         if (empty($_SESSION['customer'])) {
             $this->login_or_register($request);
         } else {
@@ -43,7 +43,7 @@ class Customers_Checkout extends Controller {
         }
     }
 
-    private function login_or_register(Request $request) {
+    private function login_or_register(ORequest $request) {
         $template = new Template('customers', 'login.register');
         $message = null;
         if ($request->is_post('customers-login')) {
@@ -63,7 +63,7 @@ class Customers_Checkout extends Controller {
         $template->display();
     }
 
-    private function login(Request $request) {
+    private function login(ORequest $request) {
         $fields = $request->populate(array ('mail' => '', 'password' => '' ));
         $fields['password'] = hash('sha512', $fields['password']);
         if ($this->db->login_is_valid($fields) == 1) {
@@ -76,7 +76,7 @@ class Customers_Checkout extends Controller {
         }
     }
 
-    private function register(Request $request) {
+    private function register(ORequest $request) {
         $fields = $request->populate($this->fields);
         $errors = $this->register_is_valid($fields);
         if (count($errors) == 0) {

@@ -2,7 +2,8 @@
 .project
 .settings
 inc/modules/products/images/
-install/migrations/2013_10_26_140544_create_chema.php
-install/migrations/2013_10_26_140544_create_chema_seed.php
+app/database/migrations/2013_10_26_140544_create_chema.php
+app/database/seeds/2013_10_26_140544_create_chema_seed.php
 vendor
 composer.lock
+app/storage/
