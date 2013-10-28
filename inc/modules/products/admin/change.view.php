@@ -62,7 +62,7 @@ $design->header('Produkt aendern');
     <tr>
         <td colspan="2">
             <input type="file" name="image" />
-            <img src="inc/modules/products/images/<?= $id ?>.min.jpeg" />
+            <img src="../inc/modules/products/images/<?= $id ?>.min.jpeg" />
         </td>
     </tr>
     <tr>
