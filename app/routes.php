@@ -27,7 +27,7 @@ Route::any('/', function()
         include '../inc/design/admin.php';
     }
 
-    $request = new Request();
+    $orequest = new ORequest();
 
     if (defined('main')) {
         include '../inc/modules/customers/session.php';
@@ -35,7 +35,6 @@ Route::any('/', function()
         include '../inc/modules/employees/admin/session.php';
     }
 
-    $orequest = new ORequest();
     Template::$request = $orequest;
 
     $module = $orequest->get_module();
