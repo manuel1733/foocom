@@ -18,7 +18,7 @@ class Design {
     <head>
         <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
         <title><?= $title; ?></title>
-        <link href="inc/design/main.css" media="all" rel="stylesheet" type="text/css" />
+        <link href="main.css" media="all" rel="stylesheet" type="text/css" />
         <!-- <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
         <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
         <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script> -->
@@ -26,7 +26,7 @@ class Design {
     <body>
 
 <div id="title">
-    <img src="inc/design/logo.gif" style="float:right;width:156px; height:39px;margin-left:3px;" alt="Logo" />
+    <img src="logo.gif" style="float:right;width:156px; height:39px;margin-left:3px;" alt="Logo" />
     <h1>Larada.org - Willkommen im online Shop der larada Genossenschaft</h1>
 </div>
 

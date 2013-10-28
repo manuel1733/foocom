@@ -34,11 +34,12 @@ class Products_Database extends Database {
         $rows = array();
         $i = 0;
         foreach ($this->query("SELECT * FROM product_groups WHERE parent_id = ?", array($id)) as $r) {
-            $rows[$i++] = $r;
             $children = $this->product_groups_children($r['id']);
             if (count($children) > 0) {
-                $rows[$i++] = $children;
+                $r['children'] = $children;
             }
+            $rows[$i++] = $r;
+
         }
         return $rows;
     }

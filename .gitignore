@@ -3,7 +3,7 @@
 .settings
 inc/modules/products/images/
 app/database/migrations/2013_10_26_140544_create_chema.php
-app/database/seeds/2013_10_26_140544_create_chema_seed.php
+app/database/seeds/CreateChemaSeed.php
 vendor
 composer.lock
 app/storage/

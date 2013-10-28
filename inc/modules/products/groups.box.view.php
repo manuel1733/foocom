@@ -5,21 +5,21 @@
 <?php
 
 function display_groups(array $groups) {
-    $length = count($groups);
-    for ($i = 0; $i < $length; $i++) {
-        echo '<li><a href="index.php?products-' . $groups[$i]['id'] . '-groups-' . Template::clean_name($groups[$i]['name']) . '">' . $groups[$i]['name'] . '</a>' . "\n";
-        if (($i + 1) < $length && empty($groups[$i + 1]['name'])) {
-            $i++;
+    foreach ($groups as $group) {
+        echo '<li><a href="index.php?products-' . $group['id'] . '-groups-' . Template::clean_name($group['name']) . '">' . $group['name'] . '</a>' . "\n";
+        if (!empty($group['children']) && is_array($group['children'])) {
             echo '<ul>' . "\n";
-            display_groups($groups[$i]);
+            display_groups($group['children']);
             echo '</ul>' . "\n";
         }
         echo '</li>' . "\n";
     }
 }
-
 display_groups($groups);
+
+echo '<pre>';
+
+// var_dump($groups);
 
 ?>
 </ul>
-
