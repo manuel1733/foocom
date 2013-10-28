@@ -15,7 +15,7 @@ $design->header('History');
 
     <?php foreach ($changes as $r): extract($r); ?>
     <tr>
-        <td><?= $employee_id; ?></td>
+        <td><?= $name; ?></td>
         <td><?= $time; ?></td>
         <td><?= $message; ?></td>
     </tr>

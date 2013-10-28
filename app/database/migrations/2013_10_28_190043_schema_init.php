@@ -33,7 +33,7 @@ class SchemaInit extends Migration {
             $table->string('name');
         });
 
-        Schema::create('role_permissions', function(Blueprint $table) {
+        Schema::create('permission_role', function(Blueprint $table) {
             $table->integer('role_id')->unsigned();
             $table->integer('permission_id')->unsigned();
             $table->primary(array('role_id', 'permission_id'));
@@ -250,7 +250,7 @@ class SchemaInit extends Migration {
 
         Schema::dropIfExists('employees');
 
-        Schema::dropIfExists('role_permissions');
+        Schema::dropIfExists('permission_role');
 
         Schema::dropIfExists('roles');
 

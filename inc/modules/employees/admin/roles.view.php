@@ -12,24 +12,30 @@ $design->header('Mitarbeiter Rollen');
 <table>
 	<tr>
 	    <th></th>
-		<?php foreach ($roles as $r) : extract($r); ?>
-		<th><?= $role ?></th>
+		<?php foreach ($roles as $role): ?>
+		<th><?= $role['name'] ?></th>
 		<?php endforeach; ?>
 	</tr>
 	<?php
-	$old_path = null;
-	foreach ($paths as $r) : extract($r);
-	if ($old_path != $path) {
-	    if ($old_path != null) {
-	        echo '</tr>';
+    foreach ($permissions as $perm) {
+	    echo '<th>' . $perm['name'] . '</th>';
+
+    	foreach($roles as $role) {
+	        if ($role['id'] == 1) {
+        	    echo '<td><input type="checkbox" checked="checked" disabled="disabled" /></td>';
+	        } else {
+	            $checked = '0';
+	            foreach ($perm['roles'] as $permRole) {
+	                if ($permRole['id'] == $role['id']) {
+	                    $checked = '1';
+	                }
+	            }
+    	        echo '<td><input type="checkbox" name="r[' . $perm['id'] . '][' . $role['id'] . ']" ' . $this->out_checkbox($checked) . ' value="1" /></td>';
+	        }
 	    }
-	    echo '<tr><th>' . $path . '</th>';
-	    echo '<td><input type="checkbox" checked="checked" disabled="disabled" /></td>';
+	    echo '</tr>';
 	}
-    echo '<td><input type="checkbox" name="r[' . $path . '][' . $role . ']" ' . $this->out_checkbox($checked) . ' value="1" /></td>';
-	$old_path = $path;
-    endforeach;
-    echo '</tr>';
+
     ?>
 
     <tr>
@@ -37,8 +43,6 @@ $design->header('Mitarbeiter Rollen');
         <td colspan="3"><input type="submit" value="speichern" /></td>
     </tr>
 </table>
-
-
 
 </form>
 

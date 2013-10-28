@@ -1,7 +1,7 @@
 <?php
 
 /*
-|--------------------------------------------------------------------------
+ |--------------------------------------------------------------------------
 | Application Routes
 |--------------------------------------------------------------------------
 |
@@ -13,9 +13,6 @@
 
 Route::any('/', function()
 {
-
-    define('admin' , true);
-
     include '../inc/config.php';
     include '../inc/common/orequest.php';
     include '../inc/common/functions.php';
@@ -23,12 +20,23 @@ Route::any('/', function()
     include '../inc/common/template.php';
     include '../inc/common/controller.php';
     include '../inc/common/autoload.php';
-    include '../inc/design/admin.php';
+
+    if (defined('main')) {
+        include '../inc/design/main.php';
+    } else {
+        include '../inc/design/admin.php';
+    }
+
+    $request = new Request();
+
+    if (defined('main')) {
+        include '../inc/modules/customers/session.php';
+    } else {
+        include '../inc/modules/employees/admin/session.php';
+    }
 
     $orequest = new ORequest();
     Template::$request = $orequest;
-
-    include '../inc/modules/employees/admin/session.php';
 
     $module = $orequest->get_module();
 
@@ -36,26 +44,3 @@ Route::any('/', function()
     $controller->handle($orequest);
 });
 
-Route::get('/admin', function() {
-
-    define('admin' , true);
-
-    include '../inc/config.php';
-    include '../inc/common/orequest.php';
-    include '../inc/common/functions.php';
-    include '../inc/common/database.php';
-    include '../inc/common/template.php';
-    include '../inc/common/controller.php';
-    include '../inc/common/autoload.php';
-    include '../inc/design/admin.php';
-
-    $orequest = new ORequest();
-    Template::$request = $orequest;
-
-    include '../inc/modules/employees/admin/session.php';
-
-    $module = $orequest->get_module();
-
-    $controller = new $module();
-    $controller->handle($orequest);
-});

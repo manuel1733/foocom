@@ -2,7 +2,6 @@
 
 class Changes extends Controller {
     private $db;
-    private $fields;
 
     function Changes() {
         $this->db = new Changes_Database();

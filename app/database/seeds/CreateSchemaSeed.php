@@ -41,7 +41,10 @@ class CreateSchemaSeed extends Seeder {
 
         DB::insert("INSERT INTO roles (name) VALUES ('Admin')");
 
-        DB::insert("INSERT INTO role_permissions (role_id, permission_id) SELECT r.id, p.id FROM roles r, permissions p");
+        DB::insert("INSERT INTO permission_role (role_id, permission_id) SELECT r.id, p.id FROM roles r, permissions p");
+
+        DB::insert("INSERT INTO roles (name) VALUES ('Leiter')");
+        DB::insert("INSERT INTO roles (name) VALUES ('Assistent')");
 
         DB::insert("INSERT INTO employees (mail, password, role_id) VALUES ('admin@test.de', '" . hash('sha512', 'test') . "', 1)");
     }

@@ -2,8 +2,7 @@
 
 class Change extends Eloquent {
 
-    public function employee()
-    {
+    public function employee() {
         return $this->belongsTo('Employee');
     }
 }
